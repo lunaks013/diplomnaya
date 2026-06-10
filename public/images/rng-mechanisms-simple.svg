@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" role="img" aria-labelledby="title desc">
+  <title id="title">'5BK@5 <5E0=87<0 A;CG09=>AB8</title>
+  <desc id="desc">@>AB0O AE5<0 G5BK@QE 35=5@0B>@>2 A;CG09=>AB8, :>B>@K5 254CB : >4=><C 2K2>4C: >B@8F0B5;L=>5 <0B5<0B8G5A:>5 >6840=85 A=8605B 10;0=A.</desc>
+  <defs>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2 2 L10 6 L2 10 Z" fill="#1e3a5f"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="520" fill="#f8fafc"/>
+  <text x="60" y="70" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#0f172a">
+    '5BK@5 <5E0=87<0 @0=4><0  >48= <0B5<0B8G5A:89 8B>3
+  </text>
+  <text x="60" y="106" font-family="Arial, sans-serif" font-size="18" fill="#475569">
+    @>3@0<<0 A@02=8205B @07=K5 8AB>G=8:8 A;CG09=>AB8, => ?@028;0 2K?;0B A>E@0=ONB ?@58<CI5AB2> A8AB5<K.
+  </text>
+
+  <g transform="translate(60 160)">
+    <rect width="230" height="140" rx="20" fill="#ffffff" stroke="#dbeafe" filter="url(#shadow)"/>
+    <text x="24" y="42" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#1e3a5f">LCG</text>
+    <text x="24" y="72" font-family="Arial, sans-serif" font-size="15" fill="#475569">seed ’ D>@<C;0</text>
+    <text x="24" y="96" font-family="Arial, sans-serif" font-size="15" fill="#475569">2>A?@>872>48<0O</text>
+    <text x="24" y="120" font-family="Arial, sans-serif" font-size="15" fill="#475569">?>A;54>20B5;L=>ABL</text>
+  </g>
+
+  <g transform="translate(340 160)">
+    <rect width="230" height="140" rx="20" fill="#ffffff" stroke="#cffafe" filter="url(#shadow)"/>
+    <text x="24" y="42" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#0891b2">CSPRNG</text>
+    <text x="24" y="72" font-family="Arial, sans-serif" font-size="15" fill="#475569">Web Crypto API</text>
+    <text x="24" y="96" font-family="Arial, sans-serif" font-size="15" fill="#475569">=5;L7O ?@54A:070BL</text>
+    <text x="24" y="120" font-family="Arial, sans-serif" font-size="15" fill="#475569">A;54CNI89 8AE>4</text>
+  </g>
+
+  <g transform="translate(620 160)">
+    <rect width="230" height="140" rx="20" fill="#ffffff" stroke="#fed7aa" filter="url(#shadow)"/>
+    <text x="24" y="42" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#c2410c">Weighted</text>
+    <text x="24" y="72" font-family="Arial, sans-serif" font-size="15" fill="#475569">@07=K5 25A0</text>
+    <text x="24" y="96" font-family="Arial, sans-serif" font-size="15" fill="#475569">near-miss MDD5:B</text>
+    <text x="24" y="120" font-family="Arial, sans-serif" font-size="15" fill="#475569">?A8E>;>38G5A:89 @8A:</text>
+  </g>
+
+  <g transform="translate(900 160)">
+    <rect width="230" height="140" rx="20" fill="#ffffff" stroke="#ddd6fe" filter="url(#shadow)"/>
+    <text x="24" y="42" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#6d28d9">SHA-256</text>
+    <text x="24" y="72" font-family="Arial, sans-serif" font-size="15" fill="#475569">server seed</text>
+    <text x="24" y="96" font-family="Arial, sans-serif" font-size="15" fill="#475569">client seed</text>
+    <text x="24" y="120" font-family="Arial, sans-serif" font-size="15" fill="#475569">?@>25@O5<K9 8AE>4</text>
+  </g>
+
+  <line x1="175" y1="322" x2="575" y2="390" stroke="#1e3a5f" stroke-width="3" opacity="0.35" marker-end="url(#arrow)"/>
+  <line x1="455" y1="322" x2="610" y2="390" stroke="#1e3a5f" stroke-width="3" opacity="0.35" marker-end="url(#arrow)"/>
+  <line x1="735" y1="322" x2="660" y2="390" stroke="#1e3a5f" stroke-width="3" opacity="0.35" marker-end="url(#arrow)"/>
+  <line x1="1015" y1="322" x2="695" y2="390" stroke="#1e3a5f" stroke-width="3" opacity="0.35" marker-end="url(#arrow)"/>
+
+  <g transform="translate(415 380)">
+    <rect width="370" height="92" rx="22" fill="#fef2f2" stroke="#fecaca" filter="url(#shadow)"/>
+    <text x="28" y="38" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#991b1b">
+      B@8F0B5;L=>5 <0B>6840=85
+    </text>
+    <text x="28" y="66" font-family="Arial, sans-serif" font-size="17" fill="#7f1d1d">
+      =0 48AB0=F88 ?@82>48B : ?>B5@5 :0?8B0;0
+    </text>
+  </g>
+</svg>

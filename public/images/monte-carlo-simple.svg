@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" role="img" aria-labelledby="title desc">
+  <title id="title">>=B5-0@;>: A=865=85 :0?8B0;0</title>
+  <desc id="desc">>=OB=K9 3@0D8: <=>65AB20 B@05:B>@89 :0?8B0;0, :>B>@K5 ?>AB5?5==> A=860NBAO 87-70 >B@8F0B5;L=>3> <0B5<0B8G5A:>3> >6840=8O.</desc>
+  <defs>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="520" fill="#f8fafc"/>
+  <text x="60" y="70" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#0f172a">
+    5B>4 >=B5-0@;>: <=>3> A5AA89 ?>:07K20NB >1I89 B@5=4
+  </text>
+  <text x="60" y="106" font-family="Arial, sans-serif" font-size="18" fill="#475569">
+    0640O ;8=8O  >B45;L=0O A8<C;OF8O 83@>:0. !@54=OO B@05:B>@8O C1K205B 87-70 <0@68 A8AB5<K.
+  </text>
+
+  <rect x="70" y="145" width="760" height="310" rx="18" fill="#ffffff" stroke="#e2e8f0" filter="url(#shadow)"/>
+  <g transform="translate(125 190)">
+    <line x1="0" y1="230" x2="640" y2="230" stroke="#94a3b8" stroke-width="2"/>
+    <line x1="0" y1="0" x2="0" y2="230" stroke="#94a3b8" stroke-width="2"/>
+    <text x="-56" y="10" font-family="Arial, sans-serif" font-size="14" fill="#475569">:0?8B0;</text>
+    <text x="590" y="260" font-family="Arial, sans-serif" font-size="14" fill="#475569">@0C=4K</text>
+
+    <g stroke="#cbd5e1" stroke-width="1">
+      <line x1="0" y1="46" x2="640" y2="46"/>
+      <line x1="0" y1="92" x2="640" y2="92"/>
+      <line x1="0" y1="138" x2="640" y2="138"/>
+      <line x1="0" y1="184" x2="640" y2="184"/>
+      <line x1="128" y1="0" x2="128" y2="230"/>
+      <line x1="256" y1="0" x2="256" y2="230"/>
+      <line x1="384" y1="0" x2="384" y2="230"/>
+      <line x1="512" y1="0" x2="512" y2="230"/>
+    </g>
+
+    <g fill="none" stroke-linecap="round" opacity="0.55">
+      <polyline points="0,10 70,38 140,54 210,79 280,95 350,128 420,145 490,172 560,192 640,216" stroke="#94a3b8" stroke-width="2"/>
+      <polyline points="0,16 80,28 160,66 240,85 320,118 400,154 480,170 560,205 640,225" stroke="#94a3b8" stroke-width="2"/>
+      <polyline points="0,8 90,45 180,72 270,104 360,136 450,162 540,198 640,228" stroke="#94a3b8" stroke-width="2"/>
+      <polyline points="0,14 75,22 150,51 225,73 300,105 375,130 450,166 525,188 640,215" stroke="#94a3b8" stroke-width="2"/>
+      <polyline points="0,12 70,52 140,82 210,110 280,138 350,162 420,186 490,207 640,230" stroke="#94a3b8" stroke-width="2"/>
+    </g>
+    <polyline points="0,12 80,38 160,64 240,91 320,121 400,151 480,177 560,203 640,222" fill="none" stroke="#1e3a5f" stroke-width="5" stroke-linecap="round"/>
+    <text x="455" y="35" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#1e3a5f">A@54=OO ;8=8O</text>
+  </g>
+
+  <g transform="translate(880 175)">
+    <rect width="250" height="72" rx="18" fill="#eff6ff" stroke="#bfdbfe" filter="url(#shadow)"/>
+    <text x="22" y="30" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#1e3a5f">50 A5AA89</text>
+    <text x="22" y="54" font-family="Arial, sans-serif" font-size="15" fill="#475569">?0@0;;5;L=K5 B@05:B>@88</text>
+
+    <rect y="94" width="250" height="72" rx="18" fill="#f8fafc" stroke="#cbd5e1" filter="url(#shadow)"/>
+    <text x="22" y="124" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#0f172a">100 @0C=4>2</text>
+    <text x="22" y="148" font-family="Arial, sans-serif" font-size="15" fill="#475569">2 :064>9 A8<C;OF88</text>
+
+    <rect y="188" width="250" height="84" rx="18" fill="#fef2f2" stroke="#fecaca" filter="url(#shadow)"/>
+    <text x="22" y="220" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#991b1b">K2>4</text>
+    <text x="22" y="246" font-family="Arial, sans-serif" font-size="15" fill="#7f1d1d">10;0=A 2 A@54=5< ?0405B</text>
+  </g>
+</svg>

@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" role="img" aria-labelledby="title desc">
+  <title id="title">>2545=G5A:85 D0:B>@K ;C4><0=88</title>
+  <desc id="desc">@>AB0O AE5<0 :>3=8B82=KE 8A:065=89: ?@>83@KH, ?>GB8 2K83@KH, 65;0=85 ?@>4>;68BL, @>AB AB02:8, @8A: 10=:@>BAB20.</desc>
+  <defs>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2 2 L10 6 L2 10 Z" fill="#1e3a5f"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="520" fill="#f8fafc"/>
+  <text x="60" y="70" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#0f172a">
+    >2545=G5A:85 D0:B>@K: ?>G5<C ?>;L7>20B5;L ?@>4>;605B
+  </text>
+  <text x="60" y="106" font-family="Arial, sans-serif" font-size="18" fill="#475569">
+    @>3@0<<0 D8:A8@C5B A>1KB8O, :>B>@K5 CA8;820NB 2>2;5GQ==>ABL 8 @8A: ?>B5@8 :>=B@>;O.
+  </text>
+
+  <g transform="translate(70 170)">
+    <rect width="180" height="116" rx="18" fill="#ffffff" stroke="#e2e8f0" filter="url(#shadow)"/>
+    <circle cx="42" cy="42" r="22" fill="#fee2e2"/>
+    <text x="36" y="51" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#dc2626"></text>
+    <text x="78" y="38" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#0f172a">@>83@KH</text>
+    <text x="24" y="82" font-family="Arial, sans-serif" font-size="15" fill="#475569">10;0=A C<5=LH05BAO</text>
+  </g>
+
+  <line x1="268" y1="228" x2="344" y2="228" stroke="#1e3a5f" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <g transform="translate(360 170)">
+    <rect width="190" height="116" rx="18" fill="#ffffff" stroke="#fed7aa" filter="url(#shadow)"/>
+    <circle cx="42" cy="42" r="22" fill="#ffedd5"/>
+    <text x="29" y="51" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#ea580c">H</text>
+    <text x="78" y="38" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#0f172a">>GB8</text>
+    <text x="78" y="62" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#0f172a">2K83@KH</text>
+    <text x="24" y="92" font-family="Arial, sans-serif" font-size="15" fill="#475569">near-miss MDD5:B</text>
+  </g>
+
+  <line x1="568" y1="228" x2="644" y2="228" stroke="#1e3a5f" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <g transform="translate(660 170)">
+    <rect width="190" height="116" rx="18" fill="#ffffff" stroke="#bfdbfe" filter="url(#shadow)"/>
+    <circle cx="42" cy="42" r="22" fill="#dbeafe"/>
+    <text x="30" y="51" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#1d4ed8">»</text>
+    <text x="78" y="38" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#0f172a">5;0=85</text>
+    <text x="78" y="62" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#0f172a">?@>4>;68BL</text>
+    <text x="24" y="92" font-family="Arial, sans-serif" font-size="15" fill="#475569">8;;N78O :>=B@>;O</text>
+  </g>
+
+  <line x1="868" y1="228" x2="944" y2="228" stroke="#1e3a5f" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <g transform="translate(960 170)">
+    <rect width="180" height="116" rx="18" fill="#ffffff" stroke="#fecaca" filter="url(#shadow)"/>
+    <circle cx="42" cy="42" r="22" fill="#fee2e2"/>
+    <text x="30" y="51" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#b91c1c">‘</text>
+    <text x="78" y="38" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#0f172a"> >AB</text>
+    <text x="78" y="62" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#0f172a">AB02:8</text>
+    <text x="24" y="92" font-family="Arial, sans-serif" font-size="15" fill="#475569">@8A: 10=:@>BAB20</text>
+  </g>
+
+  <g transform="translate(160 355)">
+    <rect width="880" height="86" rx="22" fill="#eff6ff" stroke="#bfdbfe" filter="url(#shadow)"/>
+    <text x="28" y="34" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#1e3a5f">
+      'B> D8:A8@C5B ?@>3@0<<0:
+    </text>
+    <text x="28" y="62" font-family="Arial, sans-serif" font-size="17" fill="#334155">
+      A5@88 ?@>83@KH59 · near-miss · ?>?>;=5=85 10;0=A0 · A<5=C AB@0B5388 · MA:0;0F8N AB02>:
+    </text>
+  </g>
+</svg>
