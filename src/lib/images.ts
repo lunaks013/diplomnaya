@@ -1,6 +1,6 @@
 import { publicAsset } from "./assetUrl";
 
-const v = "9";
+const v = "10";
 
 /** Тематические иллюстрации для дипломной работы (PNG в public/images) */
 export const IMAGES = {

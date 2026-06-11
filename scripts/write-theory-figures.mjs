@@ -42,48 +42,59 @@ const head = (h = 520) => `<?xml version="1.0" encoding="UTF-8"?>
   <rect width="1200" height="${h}" fill="url(#bg)"/>
   <rect x="1" y="1" width="1198" height="${h - 2}" fill="none" stroke="#e2e8f0" stroke-width="2"/>`;
 
-function card(x, y, title, desc) {
+function card(x, y, title, lines) {
   return `
   <g transform="translate(${x} ${y})">
-    <rect width="260" height="118" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
-    <rect x="0" y="0" width="6" height="118" rx="3" fill="#1e3a5f"/>
-    <text x="20" y="32" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#0f172a">${title}</text>
-    <text x="20" y="56" font-family="Arial, sans-serif" font-size="12" fill="#475569">
-      <tspan x="20" dy="0">${desc.slice(0, 42)}</tspan>
-      <tspan x="20" dy="18">${desc.slice(42, 84)}</tspan>
+    <rect width="258" height="132" rx="14" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+    <rect x="0" y="0" width="7" height="132" rx="3.5" fill="#1e3a5f"/>
+    <text x="24" y="34" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#0f172a">${title}</text>
+    <text x="24" y="64" font-family="Arial, sans-serif" font-size="13" fill="#475569">
+      ${lines.map((line, i) => `<tspan x="24" dy="${i === 0 ? 0 : 19}">${line}</tspan>`).join("\n      ")}
     </text>
   </g>`;
 }
 
-const psychology = `${head()}
-  <text x="48" y="48" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#0f172a">${T.fig1Title}</text>
-  <text x="48" y="78" font-family="Arial, sans-serif" font-size="14" fill="#64748b">${T.fig1Sub}</text>
-  ${card(48, 110, T.p1t, T.p1d)}
-  ${card(330, 110, T.p2t, T.p2d)}
-  ${card(612, 110, T.p3t, T.p3d)}
-  ${card(894, 110, T.p4t, T.p4d)}
-  <g transform="translate(48 270)">
-    <rect width="520" height="220" rx="12" fill="#ffffff" stroke="#1e3a5f" stroke-width="2"/>
-    <text x="260" y="28" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="600" fill="#1e3a5f">${T.brain}</text>
-    <ellipse cx="260" cy="120" rx="120" ry="70" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2"/>
-    <ellipse cx="200" cy="95" rx="55" ry="35" fill="#dbeafe" stroke="#1e3a5f" opacity="0.7"/>
-    <text x="200" y="99" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#1e3a5f">${T.ctrl}</text>
-    <ellipse cx="310" cy="130" rx="45" ry="30" fill="#fee2e2" stroke="#dc2626" opacity="0.8"/>
-    <text x="310" y="134" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#991b1b">${T.reward}</text>
-    <path d="M200 130 Q260 170 310 150" stroke="#64748b" stroke-width="2" fill="none" marker-end="url(#arr)"/>
-    <text x="260" y="195" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#64748b">${T.dep}</text>
+const psychology = `${head(640)}
+  <text x="48" y="52" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#0f172a">${T.fig1Title}</text>
+  <text x="48" y="84" font-family="Arial, sans-serif" font-size="15" fill="#64748b">${T.fig1Sub}</text>
+
+  ${card(48, 120, T.p1t, ["Игрок выбирает ставку", "и ощущает влияние", "на случайный исход"])}
+  ${card(330, 120, T.p2t, ["После проигрыша", "возникает желание", "быстро отыграться"])}
+  ${card(612, 120, T.p3t, ["«Почти выигрыш»", "усиливает интерес", "к продолжению серии"])}
+  ${card(894, 120, T.p4t, ["Средний результат", "остаётся отрицательным", "при любом RNG"])}
+
+  <g transform="translate(48 306)">
+    <rect width="1104" height="132" rx="16" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="552" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#1e3a5f">Логика формирования рискованного поведения</text>
+    <g transform="translate(54 58)">
+      <rect width="190" height="46" rx="10" fill="#eef2f7" stroke="#cbd5e1"/>
+      <text x="95" y="29" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#0f172a">Серия проигрышей</text>
+      <line x1="205" y1="23" x2="260" y2="23" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+      <rect x="275" width="190" height="46" rx="10" fill="#eef2f7" stroke="#cbd5e1"/>
+      <text x="370" y="29" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#0f172a">Эмоциональная реакция</text>
+      <line x1="480" y1="23" x2="535" y2="23" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+      <rect x="550" width="190" height="46" rx="10" fill="#eef2f7" stroke="#cbd5e1"/>
+      <text x="645" y="29" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#0f172a">Продолжение игры</text>
+      <line x1="755" y1="23" x2="810" y2="23" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+      <rect x="825" width="190" height="46" rx="10" fill="#1e3a5f"/>
+      <text x="920" y="29" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#ffffff">Риск потери контроля</text>
+    </g>
   </g>
-  <g transform="translate(600 270)">
-    <rect width="552" height="220" rx="12" fill="#ffffff" stroke="#cbd5e1"/>
-    <text x="276" y="28" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="600" fill="#1e3a5f">${T.dep}: \u0430\u043a\u0442\u0438\u0432\u0430\u0446\u0438\u044f \u0437\u043e\u043d \u043c\u043e\u0437\u0433\u0430</text>
-    <text x="40" y="70" font-family="Arial, sans-serif" font-size="12" fill="#64748b">${T.ctrl}</text>
-    <rect x="40" y="80" width="180" height="24" rx="4" fill="#1e3a5f" opacity="0.35"/>
-    <text x="230" y="97" font-family="Arial, sans-serif" font-size="11" fill="#64748b">${T.low}</text>
-    <text x="40" y="130" font-family="Arial, sans-serif" font-size="12" fill="#64748b">${T.reward} / \u0430\u043c\u0438\u0433\u0434\u0430\u043b\u0430</text>
-    <rect x="40" y="140" width="320" height="24" rx="4" fill="#1e3a5f" opacity="0.85"/>
-    <text x="370" y="157" font-family="Arial, sans-serif" font-size="11" fill="#64748b">${T.high}</text>
-    <text x="40" y="195" font-family="Arial, sans-serif" font-size="12" fill="#475569">\u2192 \u0441\u043d\u0438\u0436\u0435\u043d\u0438\u0435 \u043a\u043e\u0433\u043d\u0438\u0442\u0438\u0432\u043d\u043e\u0433\u043e \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u044f, \u0440\u043e\u0441\u0442 \u0440\u0435\u0430\u043a\u0446\u0438\u0438 \u043d\u0430 \u0441\u0442\u0438\u043c\u0443\u043b\u044b</text>
+
+  <g transform="translate(48 470)">
+    <rect width="520" height="120" rx="16" fill="#ffffff" stroke="#1e3a5f" stroke-width="2"/>
+    <text x="34" y="34" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#1e3a5f">Нейрокогнитивная интерпретация</text>
+    <text x="34" y="66" font-family="Arial, sans-serif" font-size="13" fill="#475569">При зависимости система награды становится активнее,</text>
+    <text x="34" y="88" font-family="Arial, sans-serif" font-size="13" fill="#475569">а когнитивный контроль над импульсом ослабевает.</text>
   </g>
+
+  <g transform="translate(600 470)">
+    <rect width="552" height="120" rx="16" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="34" y="34" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#1e3a5f">Что показывает программный комплекс</text>
+    <text x="34" y="66" font-family="Arial, sans-serif" font-size="13" fill="#475569">Даже при разных механизмах случайности итоговая тенденция</text>
+    <text x="34" y="88" font-family="Arial, sans-serif" font-size="13" fill="#475569">сохраняется: математическое ожидание E[&#916;] &lt; 0.</text>
+  </g>
+
   <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#64748b"/></marker></defs>
 </svg>`;
 
