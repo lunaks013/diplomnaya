@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 280" role="img">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#eef2f7"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="280" fill="url(#bg)"/>
+  <rect x="1" y="1" width="1198" height="278" fill="none" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="48" y="52" font-family="Arial, sans-serif" font-size="13" font-weight="600" fill="#64748b">МОДУЛЬ II · ДЕМОНСТРАЦИОННАЯ ОБОЛОЧКА</text>
+  <text x="48" y="92" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#0f172a">Кости — CSPRNG</text>
+  <text x="48" y="124" font-family="Arial, sans-serif" font-size="15" fill="#475569">Криптографически стойкий ГПСЧ (Web Crypto API)</text>
+  <g transform="translate(48 148)">
+    <rect width="380" height="44" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="16" y="28" font-family="Consolas, monospace" font-size="14" fill="#1e3a5f">crypto.getRandomValues(Uint32Array)</text>
+  </g>
+  <g transform="translate(700 36)">
+    <rect x="0" y="0" width="72" height="72" rx="12" fill="#ffffff" stroke="#1e3a5f" stroke-width="2"/>
+    <circle cx="18" cy="18" r="5" fill="#1e3a5f"/><circle cx="54" cy="18" r="5" fill="#1e3a5f"/>
+    <circle cx="36" cy="36" r="5" fill="#1e3a5f"/><circle cx="18" cy="54" r="5" fill="#1e3a5f"/>
+    <circle cx="54" cy="54" r="5" fill="#1e3a5f"/>
+    <rect x="100" y="0" width="72" height="72" rx="12" fill="#ffffff" stroke="#1e3a5f" stroke-width="2"/>
+    <circle cx="118" cy="18" r="5" fill="#1e3a5f"/><circle cx="154" cy="54" r="5" fill="#1e3a5f"/>
+    <g transform="translate(220 0)">
+      <text x="0" y="20" font-family="Arial, sans-serif" font-size="12" fill="#64748b">Распределение исходов</text>
+      <rect x="0" y="32" width="28" height="80" fill="#1e3a5f" opacity="0.85"/>
+      <rect x="36" y="48" width="28" height="64" fill="#1e3a5f" opacity="0.65"/>
+      <rect x="72" y="56" width="28" height="56" fill="#1e3a5f" opacity="0.5"/>
+      <rect x="108" y="40" width="28" height="72" fill="#1e3a5f" opacity="0.7"/>
+      <rect x="144" y="60" width="28" height="52" fill="#1e3a5f" opacity="0.45"/>
+      <line x1="0" y1="120" x2="172" y2="120" stroke="#cbd5e1" stroke-width="1.5"/>
+      <text x="86" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#94a3b8">частота / итерация</text>
+    </g>
+  </g>
+  <g transform="translate(520 210)">
+    <rect width="90" height="32" rx="6" fill="#1e3a5f"/>
+    <text x="45" y="21" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#ffffff">E[&#916;] &lt; 0</text>
+    <text x="110" y="21" font-family="Arial, sans-serif" font-size="13" fill="#64748b">Экспоненциальная модель остановки серии</text>
+  </g>
+</svg>

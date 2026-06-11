@@ -8,6 +8,7 @@ import {
   YAxis,
 } from "recharts";
 import type { MechanismComparison } from "../math/monteCarlo";
+import type { MechanismId } from "../types";
 
 interface MechanismCompareProps {
   data: MechanismComparison[];
@@ -21,26 +22,35 @@ const tooltipStyle = {
   color: "#1e293b",
 };
 
+const shortNames: Record<MechanismId, string> = {
+  lcg: "LCG PRNG",
+  csprng: "CSPRNG",
+  weightedWheel: "Weighted RNG",
+  provablyFair: "Provably Fair",
+};
+
 export function MechanismCompare({ data }: MechanismCompareProps) {
   const profitData = data.map((d) => ({
-    name: d.gameShell,
+    name: shortNames[d.mechanism],
+    fullName: d.gameShell,
     value: Math.round(d.stats.averageProfit),
   }));
 
   const bustData = data.map((d) => ({
-    name: d.gameShell,
+    name: shortNames[d.mechanism],
+    fullName: d.gameShell,
     value: +d.stats.bankruptcyRate.toFixed(1),
   }));
 
   return (
-    <div className="grid gap-5 lg:grid-cols-2">
+    <div className="grid gap-5">
       <div className="glass p-5">
         <h3 className="text-sm font-semibold text-slate-800">Средний профит</h3>
-        <ResponsiveContainer width="100%" height={200}>
-          <BarChart data={profitData} layout="vertical" margin={{ left: 4, right: 12 }}>
+        <ResponsiveContainer width="100%" height={260}>
+          <BarChart data={profitData} layout="vertical" margin={{ top: 18, left: 20, right: 24, bottom: 8 }}>
             <CartesianGrid stroke="rgba(0,0,0,0.06)" horizontal={false} />
             <XAxis type="number" tick={{ fill: "#64748b", fontSize: 11 }} />
-            <YAxis type="category" dataKey="name" width={64} tick={{ fill: "#64748b", fontSize: 11 }} />
+            <YAxis type="category" dataKey="name" width={120} tick={{ fill: "#64748b", fontSize: 12 }} />
             <Tooltip contentStyle={tooltipStyle} />
             <Bar dataKey="value" fill="#1e3a5f" radius={[0, 4, 4, 0]} />
           </BarChart>
@@ -49,11 +59,11 @@ export function MechanismCompare({ data }: MechanismCompareProps) {
 
       <div className="glass p-5">
         <h3 className="text-sm font-semibold text-slate-800">Исчерпание капитала, %</h3>
-        <ResponsiveContainer width="100%" height={200}>
-          <BarChart data={bustData} layout="vertical" margin={{ left: 4, right: 12 }}>
+        <ResponsiveContainer width="100%" height={260}>
+          <BarChart data={bustData} layout="vertical" margin={{ top: 18, left: 20, right: 24, bottom: 8 }}>
             <CartesianGrid stroke="rgba(0,0,0,0.06)" horizontal={false} />
             <XAxis type="number" domain={[0, 100]} tick={{ fill: "#64748b", fontSize: 11 }} />
-            <YAxis type="category" dataKey="name" width={64} tick={{ fill: "#64748b", fontSize: 11 }} />
+            <YAxis type="category" dataKey="name" width={120} tick={{ fill: "#64748b", fontSize: 12 }} />
             <Tooltip contentStyle={tooltipStyle} />
             <Bar dataKey="value" fill="#64748b" radius={[0, 3, 3, 0]} />
           </BarChart>

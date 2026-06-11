@@ -1,10 +1,19 @@
-const base = import.meta.env.BASE_URL;
-const v = "2";
+import { publicAsset } from "./assetUrl";
 
-/** Иллюстрации в научном стиле (дипломная работа) */
+const v = "9";
+
+/** Тематические иллюстрации для дипломной работы (PNG в public/images) */
 export const IMAGES = {
-  hero: `${base}images/diploma-overview-simple.svg?v=${v}`,
-  psychology: `${base}images/psychology-simple.svg?v=${v}`,
-  analytics: `${base}images/monte-carlo-simple.svg?v=${v}`,
-  rng: `${base}images/rng-mechanisms-simple.svg?v=${v}`,
+  hero: publicAsset(`images/home-overview-ru.svg?v=${v}`),
+  psychology: publicAsset(`images/theory-psychology-ru.svg?v=${v}`),
+  analytics: publicAsset(`images/theory-montecarlo-ru.svg?v=${v}`),
+  rng: publicAsset(`images/home-rng-ru.svg?v=${v}`),
+} as const;
+
+/** Академические баннеры модулей (схемы, не казино-фото) */
+export const GAME_IMAGES = {
+  lcg: publicAsset(`images/game-roulette-academic.svg?v=${v}`),
+  csprng: publicAsset(`images/game-dice-academic.svg?v=${v}`),
+  provablyFair: publicAsset(`images/game-cards-academic.svg?v=${v}`),
+  weightedWheel: publicAsset(`images/game-slot-academic.svg?v=${v}`),
 } as const;

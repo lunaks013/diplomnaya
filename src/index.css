@@ -117,8 +117,22 @@
   }
 
   .game-preview-img {
-    @apply h-48 w-full rounded-card object-cover md:h-56;
-    box-shadow: 0 8px 30px rgba(10, 22, 40, 0.15);
+    @apply h-44 w-full object-contain object-center md:h-52;
+    background: linear-gradient(90deg, #f8fafc 0%, #eef2f7 100%);
+  }
+
+  .academic-figure {
+    @apply overflow-hidden rounded-card border border-ozon-border bg-white;
+    box-shadow: 0 4px 24px rgba(10, 22, 40, 0.06);
+  }
+
+  .academic-figure-img {
+    @apply block h-auto w-full object-contain object-center;
+    background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+  }
+
+  .academic-figure-caption {
+    @apply border-t border-ozon-border px-4 py-3 text-center text-sm text-ozon-muted;
   }
 
   .stat-row {

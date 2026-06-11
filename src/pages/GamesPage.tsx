@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { PageHeader } from "../components/PageHeader";
 import { useTelemetry } from "../context/TelemetryContext";
+import { GAME_IMAGES } from "../lib/images";
 import type { MechanismId } from "../types";
 
 export function GamesPage() {
@@ -21,10 +22,10 @@ export function GamesPage() {
   const tabs = useMemo(
     () =>
       [
-        { id: "lcg", label: "Рулетка", title: "Рулетка", image: "/images/roulette.svg" },
-        { id: "csprng", label: "Кости", title: "Кости", image: "/images/dice.svg" },
-        { id: "provablyFair", label: "Карты", title: "Карты", image: "/images/cards.svg" },
-        { id: "weightedWheel", label: "Слот", title: "Слот", image: "/images/slot.svg" },
+        { id: "lcg", label: "Рулетка", title: "Рулетка", image: GAME_IMAGES.lcg },
+        { id: "csprng", label: "Кости", title: "Кости", image: GAME_IMAGES.csprng },
+        { id: "provablyFair", label: "Карты", title: "Карты", image: GAME_IMAGES.provablyFair },
+        { id: "weightedWheel", label: "Слот", title: "Слот", image: GAME_IMAGES.weightedWheel },
       ] satisfies Array<{ id: MechanismId; label: string; title: string; image: string }>,
     [],
   );
@@ -54,7 +55,7 @@ export function GamesPage() {
         ))}
       </div>
 
-      <div className="mb-5 overflow-hidden rounded-card bg-navy">
+      <div className="mb-5 overflow-hidden rounded-card border border-ozon-border bg-white">
         <img src={active.image} alt={active.title} className="game-preview-img" />
       </div>
 
