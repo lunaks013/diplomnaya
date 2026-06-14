@@ -28,7 +28,7 @@ export class XorShift32 {
   }
 }
 
-let globalXor = new XorShift32();
+const globalXor = new XorShift32();
 
 export function xorshiftNext(): number {
   return globalXor.next();

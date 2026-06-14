@@ -1,8 +1,11 @@
 import { useMemo } from "react";
-import { PageHeader } from "../components/PageHeader";
+import { GamePlayArea } from "../components/games/GamePlayArea";
 import { useTelemetry } from "../context/TelemetryContext";
-import { GAME_IMAGES } from "../lib/images";
 import type { MechanismId } from "../types";
+
+function formatMoney(n: number): string {
+  return `${Math.round(n).toLocaleString("ru-RU")} ₽`;
+}
 
 export function GamesPage() {
   const {
@@ -13,34 +16,37 @@ export function GamesPage() {
     setParams,
     playGame,
     topUp,
-    runMonteCarloSim,
     isPlaying,
-    isSimulating,
-    mcResult,
   } = useTelemetry();
 
   const tabs = useMemo(
     () =>
       [
-        { id: "lcg", label: "Рулетка", title: "Рулетка", image: GAME_IMAGES.lcg },
-        { id: "csprng", label: "Кости", title: "Кости", image: GAME_IMAGES.csprng },
-        { id: "provablyFair", label: "Карты", title: "Карты", image: GAME_IMAGES.provablyFair },
-        { id: "weightedWheel", label: "Слот", title: "Слот", image: GAME_IMAGES.weightedWheel },
-      ] satisfies Array<{ id: MechanismId; label: string; title: string; image: string }>,
+        { id: "lcg", label: "Рулетка" },
+        { id: "csprng", label: "Кости" },
+        { id: "provablyFair", label: "Карты" },
+        { id: "weightedWheel", label: "Слот" },
+      ] satisfies Array<{ id: MechanismId; label: string }>,
     [],
   );
 
-  const active = tabs.find((tab) => tab.id === activeMechanism) ?? tabs[0];
   const session = sessions[activeMechanism];
-  const result = mcResult?.stats;
+  const netProfit = session.balance - session.totalDeposited;
+  const winRate = session.betsPlayed > 0 ? (session.wins / session.betsPlayed) * 100 : 0;
 
   return (
-    <div className="px-4 pb-20 pt-[74px] md:px-6">
-      <PageHeader
-        label="Практическая часть"
-        title="Программа"
-        description="4 механизма рандома в 4 игровых оболочках. Играйте, пополняйте баланс, запускайте Монте-Карло."
-      />
+    <div className="mx-auto max-w-4xl px-4 pb-16 pt-[74px] md:px-6">
+      <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+        <h1 className="text-2xl font-black text-ozon-text md:text-3xl">Программа</h1>
+        <div className="text-right">
+          <p className="text-xs text-ozon-muted">Баланс</p>
+          <p className="text-2xl font-black text-ozon-text">{formatMoney(session.balance)}</p>
+          <p className={`text-sm font-semibold ${netProfit >= 0 ? "text-pos" : "text-neg"}`}>
+            {netProfit >= 0 ? "+" : "−"}
+            {formatMoney(Math.abs(netProfit))}
+          </p>
+        </div>
+      </div>
 
       <div className="tab-bar mb-5">
         {tabs.map((tab) => (
@@ -55,100 +61,53 @@ export function GamesPage() {
         ))}
       </div>
 
-      <div className="mb-5 overflow-hidden rounded-card border border-ozon-border bg-white">
-        <img src={active.image} alt={active.title} className="game-preview-img" />
-      </div>
-
-      <section className="glass p-6">
-        <div className="mb-5 flex flex-wrap items-end justify-between gap-4 border-b border-ozon-border pb-5">
-          <div>
-            <h2 className="text-2xl font-bold text-ozon-text">{active.title}</h2>
-            <p className="mt-1 text-sm text-gold">
-              Демонстрационная игровая оболочка для исследования поведения пользователя
-            </p>
-          </div>
-          <div className="text-right">
-            <p className="text-xs text-ozon-muted">Баланс</p>
-            <p className="text-3xl font-bold text-ozon-text">{session.balance.toLocaleString("ru-RU")} ₽</p>
-          </div>
-        </div>
-
-        <div className="mb-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
+      <section className="glass overflow-hidden">
+        <div className="grid grid-cols-4 gap-2 border-b border-ozon-border bg-slate-50 px-4 py-3">
           {[
             { label: "Ставок", val: session.betsPlayed },
             { label: "Побед", val: session.wins },
-            { label: "Пополнений", val: session.topUpCount },
-            { label: "Внесено", val: `${session.totalDeposited.toLocaleString("ru-RU")} ₽` },
+            { label: "Проигрышей", val: session.losses },
+            { label: "Винрейт", val: `${winRate.toFixed(0)}%` },
           ].map((item) => (
-            <div key={item.label} className="rounded-card bg-slate-50 py-3 text-center">
-              <p className="text-xs text-ozon-muted">{item.label}</p>
-              <p className="mt-1 font-bold text-ozon-text">{item.val}</p>
+            <div key={item.label} className="game-hud-stat">
+              <p className="text-[10px] uppercase tracking-wide text-ozon-muted">{item.label}</p>
+              <p className="font-bold text-ozon-text">{item.val}</p>
             </div>
           ))}
         </div>
 
-        {session.lastResult && (
-          <p
-            className={`mb-5 rounded-card px-4 py-3 text-sm font-medium ${
-              session.lastResult.includes("+") || session.lastResult.includes("положительный")
-                ? "bg-green-50 text-pos"
-                : session.lastResult.toLowerCase().includes("near") || session.lastResult.includes("почти")
-                  ? "bg-amber-50 text-amber-700"
-                  : "bg-slate-50 text-ozon-muted"
-            }`}
-          >
-            {session.lastResult}
-          </p>
-        )}
+        <div className="p-4 md:p-6">
+          <GamePlayArea
+            mechanism={activeMechanism}
+            lastResult={session.lastResult}
+            lastRoundMeta={session.lastRoundMeta}
+            crashTarget={params.crashTarget}
+            isPlaying={isPlaying}
+          />
+        </div>
 
-        <div className="flex flex-wrap items-end gap-3">
+        <div className="flex flex-wrap items-end justify-center gap-3 border-t border-ozon-border bg-white px-4 py-5 md:px-6">
           <label>
-            <span className="mb-1 block text-xs font-medium text-ozon-muted">Ставка</span>
+            <span className="mb-1 block text-center text-xs font-medium text-ozon-muted">Ставка</span>
             <input
               type="number"
               min={1}
               value={params.baseBet}
               onChange={(event) => setParams({ baseBet: Math.max(1, Number(event.target.value) || 1) })}
-              className="input-field w-28"
+              className="input-field w-28 text-center"
             />
           </label>
           <button
             type="button"
             disabled={isPlaying || session.balance <= 0}
             onClick={() => void playGame()}
-            className="btn-primary disabled:opacity-40"
+            className="btn-primary game-play-btn disabled:opacity-40"
           >
-            {isPlaying ? "Играем…" : "Играть"}
+            {isPlaying ? "…" : "Играть"}
           </button>
           <button type="button" onClick={topUp} className="btn-outline">
-            Пополнить +{params.initialBalance.toLocaleString("ru-RU")} ₽
+            +{params.initialBalance.toLocaleString("ru-RU")} ₽
           </button>
-          <button type="button" disabled={isSimulating} onClick={runMonteCarloSim} className="btn-outline">
-            {isSimulating ? "Считаем…" : "Монте-Карло"}
-          </button>
-        </div>
-      </section>
-
-      <section className="mt-8 grid gap-4 md:grid-cols-4">
-        <div className="glass p-5">
-          <p className="text-xs text-ozon-muted">Банкротство</p>
-          <p className="mt-2 text-2xl font-bold text-ozon-text">{result ? `${result.bankruptcyRate.toFixed(1)}%` : "—"}</p>
-        </div>
-        <div className="glass p-5">
-          <p className="text-xs text-ozon-muted">Средний баланс</p>
-          <p className="mt-2 text-2xl font-bold text-ozon-text">
-            {result ? `${Math.round(result.averageFinalBalance).toLocaleString("ru-RU")} ₽` : "—"}
-          </p>
-        </div>
-        <div className="glass p-5">
-          <p className="text-xs text-ozon-muted">Средний профит</p>
-          <p className={`mt-2 text-2xl font-bold ${result && result.averageProfit < 0 ? "text-neg" : "text-pos"}`}>
-            {result ? `${Math.round(result.averageProfit).toLocaleString("ru-RU")} ₽` : "—"}
-          </p>
-        </div>
-        <div className="glass p-5">
-          <p className="text-xs text-ozon-muted">Винрейт</p>
-          <p className="mt-2 text-2xl font-bold text-ozon-text">{result ? `${result.winRate.toFixed(1)}%` : "—"}</p>
         </div>
       </section>
     </div>

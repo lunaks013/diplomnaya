@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { AcademicFigure } from "../components/AcademicFigure";
+import { LiveMonteCarloChart } from "../components/LiveMonteCarloChart";
 import { MechanismCompare } from "../components/MechanismCompare";
+import { MechanismSummaryTable } from "../components/MechanismSummaryTable";
 import { PageHeader } from "../components/PageHeader";
-import { IMAGES } from "../lib/images";
 import { PsychLog } from "../components/lab/PsychLog";
 import { StatCard } from "../components/StatCard";
 import { useTelemetry, MONTE_CARLO_PATHWAYS } from "../context/TelemetryContext";
@@ -26,6 +26,13 @@ const MODULE_NAMES: Record<MechanismId, string> = {
   csprng: "Кости",
   provablyFair: "Карты",
   weightedWheel: "Слот",
+};
+
+const MODULE_COLORS: Record<MechanismId, string> = {
+  lcg: "#1e3a5f",
+  csprng: "#2563eb",
+  provablyFair: "#0f766e",
+  weightedWheel: "#7c3aed",
 };
 
 export function ResultsPage() {
@@ -72,7 +79,7 @@ export function ResultsPage() {
       <PageHeader
         label="Сводка результатов"
         title="Итоги анализа"
-        description="Сравнительная таблица по четырём механизмам RNG. Независимо от алгоритма средний профит остаётся отрицательным."
+        description="Фактические данные после игры и результаты моделирования по четырём механизмам случайности."
       />
 
       <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -106,7 +113,9 @@ export function ResultsPage() {
 
         <div className="grid gap-4 md:grid-cols-2">
           {sessionRows.map((row) => (
-            <article key={row.id} className="glass p-5">
+            <article key={row.id} className="glass overflow-hidden">
+              <div className="h-1" style={{ background: MODULE_COLORS[row.id] }} />
+              <div className="p-5">
               <div className="mb-4 flex items-start justify-between gap-3 border-b border-ozon-border pb-3">
                 <div>
                   <h3 className="text-lg font-bold text-slate-900">{MODULE_NAMES[row.id]}</h3>
@@ -141,6 +150,7 @@ export function ResultsPage() {
               <p className="mt-3 text-xs leading-relaxed text-slate-500">
                 {row.session.lastResult ?? "В этом модуле ещё не было игровых действий."}
               </p>
+              </div>
             </article>
           ))}
         </div>
@@ -158,7 +168,7 @@ export function ResultsPage() {
               hint={`старт ${formatMoney(params.initialBalance)}`}
             />
             <StatCard
-              title="Средний Δ"
+              title="Средний итог"
               value={formatProfit(stats!.averageProfit)}
               valueClassName={stats!.averageProfit >= 0 ? "text-pos" : "text-neg"}
             />
@@ -183,61 +193,23 @@ export function ResultsPage() {
         </div>
       )}
 
-      <AcademicFigure
-        src={IMAGES.analytics}
-        alt="Сводная визуализация результатов моделирования"
-        caption="Рис. 1 — Сравнительный анализ траекторий капитала по механизмам RNG"
-        className="mb-8"
-      />
+      <LiveMonteCarloChart sessions={sessions} mcResult={mcResult} startingBalance={params.initialBalance} />
 
       <section className="mb-10">
         <h2 className="heading-lg mb-1">Сравнение механизмов</h2>
         <p className="mb-5 text-sm text-slate-600">
           Капитал {formatMoney(params.initialBalance)} · ставка {formatMoney(params.baseBet)} ·{" "}
-          {MONTE_CARLO_PATHWAYS} траекторий Монте-Карло
+          {MONTE_CARLO_PATHWAYS} траекторий моделирования
         </p>
         {loading || !comparison ? (
           <div className="glass p-12 text-center text-slate-500">Выполняется расчёт…</div>
         ) : (
-          <MechanismCompare data={comparison} />
+          <div className="space-y-5">
+            <MechanismSummaryTable data={comparison} />
+            <MechanismCompare data={comparison} />
+          </div>
         )}
       </section>
-
-      {comparison && (
-        <div className="glass mb-10 overflow-x-auto">
-          <table className="data-table">
-            <thead>
-              <tr>
-                <th>Механизм</th>
-                <th>Модуль</th>
-                <th className="text-right">Edge</th>
-                <th className="text-right">Средний Δ</th>
-                <th className="hidden text-right sm:table-cell">Исчерпание</th>
-              </tr>
-            </thead>
-            <tbody>
-              {comparison.map((row) => {
-                const m = MECHANISMS[row.mechanism];
-                return (
-                  <tr key={row.mechanism}>
-                    <td className="font-medium text-slate-900">{row.label}</td>
-                    <td className="text-slate-600">{row.gameShell}</td>
-                    <td className="text-right text-neg">−{m.houseEdge}%</td>
-                    <td
-                      className={`text-right font-medium ${row.stats.averageProfit >= 0 ? "text-pos" : "text-neg"}`}
-                    >
-                      {formatProfit(row.stats.averageProfit)}
-                    </td>
-                    <td className="hidden text-right text-slate-600 sm:table-cell">
-                      {row.stats.bankruptcyRate.toFixed(1)}%
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      )}
 
       <PsychLog />
 

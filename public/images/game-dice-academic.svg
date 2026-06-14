@@ -9,11 +9,11 @@
   <rect width="1200" height="280" fill="url(#bg)"/>
   <rect x="1" y="1" width="1198" height="278" fill="none" stroke="#e2e8f0" stroke-width="2"/>
   <text x="48" y="52" font-family="Arial, sans-serif" font-size="13" font-weight="600" fill="#64748b">МОДУЛЬ II · ДЕМОНСТРАЦИОННАЯ ОБОЛОЧКА</text>
-  <text x="48" y="92" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#0f172a">Кости — CSPRNG</text>
-  <text x="48" y="124" font-family="Arial, sans-serif" font-size="15" fill="#475569">Криптографически стойкий ГПСЧ (Web Crypto API)</text>
+  <text x="48" y="92" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#0f172a">Кости — непредсказуемый исход</text>
+  <text x="48" y="124" font-family="Arial, sans-serif" font-size="15" fill="#475569">Браузер создаёт надёжное случайное значение</text>
   <g transform="translate(48 148)">
     <rect width="380" height="44" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
-    <text x="16" y="28" font-family="Consolas, monospace" font-size="14" fill="#1e3a5f">crypto.getRandomValues(Uint32Array)</text>
+    <text x="16" y="28" font-family="Arial, sans-serif" font-size="14" fill="#1e3a5f">Браузер создаёт непредсказуемое случайное значение</text>
   </g>
   <g transform="translate(700 36)">
     <rect x="0" y="0" width="72" height="72" rx="12" fill="#ffffff" stroke="#1e3a5f" stroke-width="2"/>
@@ -34,8 +34,8 @@
     </g>
   </g>
   <g transform="translate(520 210)">
-    <rect width="90" height="32" rx="6" fill="#1e3a5f"/>
-    <text x="45" y="21" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#ffffff">E[&#916;] &lt; 0</text>
-    <text x="110" y="21" font-family="Arial, sans-serif" font-size="13" fill="#64748b">Экспоненциальная модель остановки серии</text>
+    <rect width="180" height="32" rx="6" fill="#1e3a5f"/>
+    <text x="90" y="21" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#ffffff">итог серии ниже нуля</text>
+    <text x="200" y="21" font-family="Arial, sans-serif" font-size="13" fill="#64748b">Экспоненциальная модель остановки серии</text>
   </g>
 </svg>

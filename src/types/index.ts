@@ -55,6 +55,7 @@ export interface GameSession {
   currentStreak: number;
   maxWinStreak: number;
   lastResult: string | null;
+  lastRoundMeta: Record<string, string | number | boolean> | null;
   lastBet: number;
   pathway: number[];
   houseAbsorbed: number;

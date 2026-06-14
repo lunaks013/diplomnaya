@@ -9,23 +9,23 @@ const R = {
   mod2: "\u041c\u041e\u0414\u0423\u041b\u042c II \u00b7 \u0414\u0415\u041c\u041e\u041d\u0421\u0422\u0420\u0410\u0426\u0418\u041e\u041d\u041d\u0410\u042f \u041e\u0411\u041e\u041b\u041e\u0427\u041a\u0410",
   mod3: "\u041c\u041e\u0414\u0423\u041b\u042c III \u00b7 \u0414\u0415\u041c\u041e\u041d\u0421\u0422\u0420\u0410\u0426\u0418\u041e\u041d\u041d\u0410\u042f \u041e\u0411\u041e\u041b\u041e\u0427\u041a\u0410",
   mod4: "\u041c\u041e\u0414\u0423\u041b\u042c IV \u00b7 \u0414\u0415\u041c\u041e\u041d\u0421\u0422\u0420\u0410\u0426\u0418\u041e\u041d\u041d\u0410\u042f \u041e\u0411\u041e\u041b\u041e\u0427\u041a\u0410",
-  ruletka: "\u0420\u0443\u043b\u0435\u0442\u043a\u0430 \u2014 LCG PRNG",
-  ruletkaSub: "\u041b\u0438\u043d\u0435\u0439\u043d\u044b\u0439 \u043a\u043e\u043d\u0433\u0440\u0443\u044d\u043d\u0442\u043d\u044b\u0439 \u0433\u0435\u043d\u0435\u0440\u0430\u0442\u043e\u0440",
-  ravnom: "\u0420\u0430\u0432\u043d\u043e\u043c\u0435\u0440\u043d\u043e\u0435 \u0441\u0435\u043a\u0442\u043e\u0440\u043d\u043e\u0435 \u0440\u0430\u0441\u043f\u0440\u0435\u0434\u0435\u043b\u0435\u043d\u0438\u0435",
+  ruletka: "\u0420\u0443\u043b\u0435\u0442\u043a\u0430 \u2014 \u0441\u043b\u0443\u0447\u0430\u0439\u043d\u0430\u044f \u0432\u044b\u0431\u043e\u0440\u043a\u0430",
+  ruletkaSub: "\u0422\u0440\u0438 \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u044f \u0434\u043b\u044f \u043d\u0430\u0433\u043b\u044f\u0434\u043d\u043e\u0439 \u043e\u0446\u0435\u043d\u043a\u0438 \u0438\u0441\u0445\u043e\u0434\u0430",
+  ravnom: "\u0421\u043b\u0443\u0447\u0430\u0439\u043d\u044b\u0439 \u0432\u044b\u0431\u043e\u0440 \u0438\u0441\u0445\u043e\u0434\u0430",
   note1: "\u041d\u0430\u0443\u0447\u043d\u0430\u044f \u0434\u0435\u043c\u043e\u043d\u0441\u0442\u0440\u0430\u0446\u0438\u044f, \u043d\u0435 \u0430\u0437\u0430\u0440\u0442\u043d\u0430\u044f \u0438\u0433\u0440\u0430",
-  kosti: "\u041a\u043e\u0441\u0442\u0438 \u2014 CSPRNG",
-  kostiSub: "\u041a\u0440\u0438\u043f\u0442\u043e\u0433\u0440\u0430\u0444\u0438\u0447\u0435\u0441\u043a\u0438 \u0441\u0442\u043e\u0439\u043a\u0438\u0439 \u0413\u041f\u0421\u0427 (Web Crypto API)",
+  kosti: "\u041a\u043e\u0441\u0442\u0438 \u2014 \u043d\u0435\u043f\u0440\u0435\u0434\u0441\u043a\u0430\u0437\u0443\u0435\u043c\u044b\u0439 \u0438\u0441\u0445\u043e\u0434",
+  kostiSub: "\u0411\u0440\u0430\u0443\u0437\u0435\u0440 \u0441\u043e\u0437\u0434\u0430\u0451\u0442 \u043d\u0430\u0434\u0451\u0436\u043d\u043e\u0435 \u0441\u043b\u0443\u0447\u0430\u0439\u043d\u043e\u0435 \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435",
   rasp: "\u0420\u0430\u0441\u043f\u0440\u0435\u0434\u0435\u043b\u0435\u043d\u0438\u0435 \u0438\u0441\u0445\u043e\u0434\u043e\u0432",
   chast: "\u0447\u0430\u0441\u0442\u043e\u0442\u0430 / \u0438\u0442\u0435\u0440\u0430\u0446\u0438\u044f",
   note2: "\u042d\u043a\u0441\u043f\u043e\u043d\u0435\u043d\u0446\u0438\u0430\u043b\u044c\u043d\u0430\u044f \u043c\u043e\u0434\u0435\u043b\u044c \u043e\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0438 \u0441\u0435\u0440\u0438\u0438",
-  karty: "\u041a\u0430\u0440\u0442\u044b \u2014 Provably Fair",
-  kartySub: "\u0412\u0435\u0440\u0438\u0444\u0438\u0446\u0438\u0440\u0443\u0435\u043c\u044b\u0439 \u043a\u0440\u0438\u043f\u0442\u043e\u0433\u0440\u0430\u0444\u0438\u0447\u0435\u0441\u043a\u0438\u0439 \u0438\u0441\u0445\u043e\u0434 (SHA-256)",
+  karty: "\u041a\u0430\u0440\u0442\u044b \u2014 \u043f\u0440\u043e\u0432\u0435\u0440\u044f\u0435\u043c\u044b\u0439 \u0438\u0441\u0445\u043e\u0434",
+  kartySub: "\u041f\u0440\u043e\u0437\u0440\u0430\u0447\u043d\u044b\u0439 \u0438 \u043f\u0440\u043e\u0432\u0435\u0440\u044f\u0435\u043c\u044b\u0439 \u0438\u0441\u0445\u043e\u0434",
   ishod: "\u0438\u0441\u0445\u043e\u0434",
   verif: "\u0432\u0435\u0440\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u044f",
   prozr: "\u041f\u0440\u043e\u0437\u0440\u0430\u0447\u043d\u044b\u0439 \u0430\u043b\u0433\u043e\u0440\u0438\u0442\u043c \u0431\u0435\u0437 \u0441\u043a\u0440\u044b\u0442\u043e\u0433\u043e \u043c\u0430\u043d\u0438\u043f\u0443\u043b\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u044f",
   note3: "\u0412\u0435\u0440\u0438\u0444\u0438\u0446\u0438\u0440\u0443\u0435\u043c\u044b\u0439 \u043a\u0440\u0438\u043f\u0442\u043e\u0433\u0440\u0430\u0444\u0438\u0447\u0435\u0441\u043a\u0438\u0439 \u0438\u0441\u0445\u043e\u0434",
-  slot: "\u0421\u043b\u043e\u0442 \u2014 Weighted RNG",
-  slotSub: "\u0412\u0437\u0432\u0435\u0448\u0435\u043d\u043d\u043e\u0435 \u0440\u0430\u0441\u043f\u0440\u0435\u0434\u0435\u043b\u0435\u043d\u0438\u0435 \u00b7 \u044d\u0444\u0444\u0435\u043a\u0442 near-miss",
+  slot: "\u0421\u043b\u043e\u0442 \u2014 \u0440\u0430\u0437\u043d\u044b\u0435 \u0448\u0430\u043d\u0441\u044b",
+  slotSub: "\u041e\u0434\u043d\u0438 \u0438\u0441\u0445\u043e\u0434\u044b \u0432\u044b\u043f\u0430\u0434\u0430\u044e\u0442 \u0447\u0430\u0449\u0435, \u0434\u0440\u0443\u0433\u0438\u0435 \u0440\u0435\u0436\u0435",
   shema: "\u0421\u0445\u0435\u043c\u0430 \u0432\u0437\u0432\u0435\u0448\u0435\u043d\u043d\u044b\u0445 \u0441\u0435\u043a\u0442\u043e\u0440\u043e\u0432",
   proig: "\u043f\u0440\u043e\u0438\u0433\u0440\u044b\u0448",
   malyj: "\u043c\u0430\u043b\u044b\u0439 \u0432\u044b\u0438\u0433\u0440.",
@@ -48,9 +48,9 @@ const commonHead = `<?xml version="1.0" encoding="UTF-8"?>
 function footer(note) {
   return `
   <g transform="translate(520 210)">
-    <rect width="90" height="32" rx="6" fill="#1e3a5f"/>
-    <text x="45" y="21" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#ffffff">E[&#916;] &lt; 0</text>
-    <text x="110" y="21" font-family="Arial, sans-serif" font-size="13" fill="#64748b">${note}</text>
+    <rect width="180" height="32" rx="6" fill="#1e3a5f"/>
+    <text x="90" y="21" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#ffffff">итог серии ниже нуля</text>
+    <text x="200" y="21" font-family="Arial, sans-serif" font-size="13" fill="#64748b">${note}</text>
   </g>
 </svg>`;
 }
@@ -62,7 +62,7 @@ const banners = {
   <text x="48" y="124" font-family="Arial, sans-serif" font-size="15" fill="#475569">${R.ruletkaSub}</text>
   <g transform="translate(48 148)">
     <rect width="420" height="44" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
-    <text x="16" y="28" font-family="Consolas, monospace" font-size="14" fill="#1e3a5f">state = (1664525*state + 1013904223) mod 2^32</text>
+    <text x="16" y="28" font-family="Arial, sans-serif" font-size="14" fill="#1e3a5f">Последовательность случайных значений определяет исход раунда</text>
   </g>
   <g transform="translate(820 40)">
     <circle cx="160" cy="100" r="88" fill="#ffffff" stroke="#1e3a5f" stroke-width="3"/>
@@ -84,7 +84,7 @@ const banners = {
   <text x="48" y="124" font-family="Arial, sans-serif" font-size="15" fill="#475569">${R.kostiSub}</text>
   <g transform="translate(48 148)">
     <rect width="380" height="44" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
-    <text x="16" y="28" font-family="Consolas, monospace" font-size="14" fill="#1e3a5f">crypto.getRandomValues(Uint32Array)</text>
+    <text x="16" y="28" font-family="Arial, sans-serif" font-size="14" fill="#1e3a5f">Браузер создаёт непредсказуемое случайное значение</text>
   </g>
   <g transform="translate(700 36)">
     <rect x="0" y="0" width="72" height="72" rx="12" fill="#ffffff" stroke="#1e3a5f" stroke-width="2"/>
@@ -116,7 +116,7 @@ const banners = {
   <text x="48" y="124" font-family="Arial, sans-serif" font-size="15" fill="#475569">${R.kartySub}</text>
   <g transform="translate(48 148)">
     <rect width="500" height="44" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
-    <text x="16" y="28" font-family="Consolas, monospace" font-size="13" fill="#1e3a5f">roll = parseInt(SHA256(s+c+n)[0:8], 16) mod 100</text>
+    <text x="16" y="28" font-family="Arial, sans-serif" font-size="14" fill="#1e3a5f">Результат формируется проверяемым способом для каждого раунда</text>
   </g>
   <g transform="translate(640 50)">
     <rect x="0" y="20" width="100" height="130" rx="10" fill="#ffffff" stroke="#1e3a5f" stroke-width="2"/>
@@ -128,11 +128,11 @@ const banners = {
     <text x="220" y="98" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#1e3a5f">+ clientSeed</text>
     <line x1="285" y1="85" x2="330" y2="85" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
     <rect x="340" y="55" width="90" height="60" rx="8" fill="#1e3a5f"/>
-    <text x="385" y="82" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#ffffff">SHA-256</text>
+    <text x="385" y="82" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#ffffff">проверка</text>
     <text x="385" y="98" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#cbd5e1">${R.verif}</text>
     <line x1="440" y1="85" x2="485" y2="85" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
     <rect x="495" y="65" width="70" height="40" rx="6" fill="#ffffff" stroke="#1e3a5f" stroke-width="2"/>
-    <text x="530" y="90" text-anchor="middle" font-family="Consolas, monospace" font-size="14" fill="#1e3a5f">roll</text>
+    <text x="530" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#1e3a5f">исход</text>
     <text x="285" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#64748b">${R.prozr}</text>
   </g>${footer(R.note3)}`,
 
@@ -142,7 +142,7 @@ const banners = {
   <text x="48" y="124" font-family="Arial, sans-serif" font-size="15" fill="#475569">${R.slotSub}</text>
   <g transform="translate(48 148)">
     <rect width="380" height="44" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
-    <text x="16" y="28" font-family="Consolas, monospace" font-size="14" fill="#1e3a5f">r -= weight[i]; if (r &lt;= 0) goto sector[i]</text>
+    <text x="16" y="28" font-family="Arial, sans-serif" font-size="14" fill="#1e3a5f">Сектор выбирается с учётом заданной вероятности выпадения</text>
   </g>
   <g transform="translate(620 42)">
     <rect x="0" y="0" width="480" height="150" rx="12" fill="#ffffff" stroke="#1e3a5f" stroke-width="2"/>

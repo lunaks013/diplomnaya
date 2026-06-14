@@ -14,11 +14,11 @@
     </marker>
   </defs>
   <text x="48" y="52" font-family="Arial, sans-serif" font-size="13" font-weight="600" fill="#64748b">МОДУЛЬ IV · ДЕМОНСТРАЦИОННАЯ ОБОЛОЧКА</text>
-  <text x="48" y="92" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#0f172a">Карты — Provably Fair</text>
-  <text x="48" y="124" font-family="Arial, sans-serif" font-size="15" fill="#475569">Верифицируемый криптографический исход (SHA-256)</text>
+  <text x="48" y="92" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#0f172a">Карты — проверяемый исход</text>
+  <text x="48" y="124" font-family="Arial, sans-serif" font-size="15" fill="#475569">Прозрачный и проверяемый исход</text>
   <g transform="translate(48 148)">
     <rect width="500" height="44" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
-    <text x="16" y="28" font-family="Consolas, monospace" font-size="13" fill="#1e3a5f">roll = parseInt(SHA256(s+c+n)[0:8], 16) mod 100</text>
+    <text x="16" y="28" font-family="Arial, sans-serif" font-size="14" fill="#1e3a5f">Результат формируется проверяемым способом для каждого раунда</text>
   </g>
   <g transform="translate(640 50)">
     <rect x="0" y="20" width="100" height="130" rx="10" fill="#ffffff" stroke="#1e3a5f" stroke-width="2"/>
@@ -30,16 +30,16 @@
     <text x="220" y="98" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#1e3a5f">+ clientSeed</text>
     <line x1="285" y1="85" x2="330" y2="85" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
     <rect x="340" y="55" width="90" height="60" rx="8" fill="#1e3a5f"/>
-    <text x="385" y="82" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#ffffff">SHA-256</text>
+    <text x="385" y="82" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#ffffff">проверка</text>
     <text x="385" y="98" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#cbd5e1">верификация</text>
     <line x1="440" y1="85" x2="485" y2="85" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
     <rect x="495" y="65" width="70" height="40" rx="6" fill="#ffffff" stroke="#1e3a5f" stroke-width="2"/>
-    <text x="530" y="90" text-anchor="middle" font-family="Consolas, monospace" font-size="14" fill="#1e3a5f">roll</text>
+    <text x="530" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#1e3a5f">исход</text>
     <text x="285" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#64748b">Прозрачный алгоритм без скрытого манипулирования</text>
   </g>
   <g transform="translate(520 210)">
-    <rect width="90" height="32" rx="6" fill="#1e3a5f"/>
-    <text x="45" y="21" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#ffffff">E[&#916;] &lt; 0</text>
-    <text x="110" y="21" font-family="Arial, sans-serif" font-size="13" fill="#64748b">Верифицируемый криптографический исход</text>
+    <rect width="180" height="32" rx="6" fill="#1e3a5f"/>
+    <text x="90" y="21" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#ffffff">итог серии ниже нуля</text>
+    <text x="200" y="21" font-family="Arial, sans-serif" font-size="13" fill="#64748b">Верифицируемый криптографический исход</text>
   </g>
 </svg>

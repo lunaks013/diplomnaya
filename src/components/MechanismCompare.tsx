@@ -23,10 +23,10 @@ const tooltipStyle = {
 };
 
 const shortNames: Record<MechanismId, string> = {
-  lcg: "LCG PRNG",
-  csprng: "CSPRNG",
-  weightedWheel: "Weighted RNG",
-  provablyFair: "Provably Fair",
+  lcg: "Рулетка",
+  csprng: "Кости",
+  weightedWheel: "Слот",
+  provablyFair: "Карты",
 };
 
 export function MechanismCompare({ data }: MechanismCompareProps) {
@@ -45,7 +45,7 @@ export function MechanismCompare({ data }: MechanismCompareProps) {
   return (
     <div className="grid gap-5">
       <div className="glass p-5">
-        <h3 className="text-sm font-semibold text-slate-800">Средний профит</h3>
+        <h3 className="text-sm font-semibold text-slate-800">Средний итог</h3>
         <ResponsiveContainer width="100%" height={260}>
           <BarChart data={profitData} layout="vertical" margin={{ top: 18, left: 20, right: 24, bottom: 8 }}>
             <CartesianGrid stroke="rgba(0,0,0,0.06)" horizontal={false} />

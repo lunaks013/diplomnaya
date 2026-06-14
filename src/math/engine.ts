@@ -140,7 +140,7 @@ function playLcgSlots(bet: number, rules: CustomGameRules): GameRoundResult {
       won: true,
       payout: evalResult.payout,
       netChange: evalResult.payout,
-      message: `[${reels.join(" | ")}] — положительный исход, Δ=${evalResult.payout} ₽`,
+      message: `Выпала комбинация: ${reels.join(" | ")}. Исход положительный, прибыль ${evalResult.payout} ₽.`,
       nearMiss: evalResult.nearMiss,
       metadata: { reels: reels.join(","), mechanism: "lcg" },
     };
@@ -151,8 +151,8 @@ function playLcgSlots(bet: number, rules: CustomGameRules): GameRoundResult {
     payout: 0,
     netChange: -bet,
     message: evalResult.nearMiss
-      ? `[${reels.join(" | ")}] — near-miss (субъективно близкий исход), Δ=−${bet} ₽`
-      : `[${reels.join(" | ")}] — отрицательный исход, Δ=−${bet} ₽`,
+      ? `Выпала комбинация: ${reels.join(" | ")}. Почти выигрыш, но ставка потеряна: ${bet} ₽.`
+      : `Выпала комбинация: ${reels.join(" | ")}. Исход отрицательный, потеря ${bet} ₽.`,
     nearMiss: evalResult.nearMiss,
     metadata: { reels: reels.join(","), mechanism: "lcg" },
   };
@@ -167,7 +167,7 @@ function playCrash(bet: number, cashoutTarget: number): GameRoundResult {
       won: true,
       payout: outcome.payout,
       netChange: outcome.payout,
-      message: `t*=${crashPoint.toFixed(2)}, порог=${cashoutTarget.toFixed(2)} — положительный исход, Δ=+${outcome.payout} ₽`,
+      message: `Случайное значение оказалось выше выбранного порога. Исход положительный, прибыль ${outcome.payout} ₽.`,
       metadata: { crashPoint, cashoutTarget, mechanism: "csprng" },
     };
   }
@@ -176,7 +176,7 @@ function playCrash(bet: number, cashoutTarget: number): GameRoundResult {
     won: false,
     payout: 0,
     netChange: -bet,
-    message: `t*=${crashPoint.toFixed(2)}, порог=${cashoutTarget.toFixed(2)} — отрицательный исход, Δ=−${bet} ₽`,
+    message: `Случайное значение оказалось ниже выбранного порога. Исход отрицательный, потеря ${bet} ₽.`,
     nearMiss: crashPoint >= cashoutTarget * 0.85 && crashPoint < cashoutTarget,
     metadata: { crashPoint, cashoutTarget, mechanism: "csprng" },
   };
@@ -195,7 +195,7 @@ function playWheel(bet: number, rules: CustomGameRules): GameRoundResult {
       won: true,
       payout: outcome.payout,
       netChange: outcome.netChange,
-      message: `Сектор «${sector.label}» — положительный исход, Δ=+${outcome.payout} ₽`,
+      message: `Выбран сектор «${sector.label}». Исход положительный, прибыль ${outcome.payout} ₽.`,
       nearMiss,
       metadata: { sector: sector.label, angle, mechanism: "weightedWheel" },
     };
@@ -206,8 +206,8 @@ function playWheel(bet: number, rules: CustomGameRules): GameRoundResult {
     payout: 0,
     netChange: outcome.netChange,
     message: nearMiss
-      ? `Сектор «${sector.label}» — near-miss (смежный с максимальным сектором), Δ=${outcome.netChange} ₽`
-      : `Сектор «${sector.label}» — отрицательный исход, Δ=${outcome.netChange} ₽`,
+      ? `Выбран сектор «${sector.label}». Почти выигрыш, но итог отрицательный: потеря ${Math.abs(outcome.netChange)} ₽.`
+      : `Выбран сектор «${sector.label}». Исход отрицательный, потеря ${Math.abs(outcome.netChange)} ₽.`,
     nearMiss,
     metadata: { sector: sector.label, angle, mechanism: "weightedWheel" },
   };
@@ -228,7 +228,7 @@ async function playProvablyFairDice(
       won: true,
       payout: outcome.payout,
       netChange: outcome.netChange,
-      message: `значение=${roll}, порог≥${rules.winThreshold}, хеш=${hash.slice(0, 12)} — положительный исход, Δ=+${outcome.payout} ₽`,
+      message: `Проверяемый алгоритм дал положительный исход. Прибыль ${outcome.payout} ₽.`,
       metadata: { roll, hash: hash.slice(0, 16), nonce: pf.nonce, mechanism: "provablyFair" },
     };
   }
@@ -237,7 +237,7 @@ async function playProvablyFairDice(
     won: false,
     payout: 0,
     netChange: -bet,
-    message: `значение=${roll}, порог≥${rules.winThreshold}, хеш=${hash.slice(0, 12)} — отрицательный исход, Δ=−${bet} ₽`,
+    message: `Проверяемый алгоритм дал отрицательный исход. Потеря ${bet} ₽.`,
     metadata: { roll, hash: hash.slice(0, 16), nonce: pf.nonce, mechanism: "provablyFair" },
   };
 }

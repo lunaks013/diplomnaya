@@ -27,7 +27,7 @@ export function MechanismCard({ mechanism }: MechanismCardProps) {
             <div className="flex items-start justify-between gap-2">
               <h3 className="font-semibold text-slate-900">{mechanism.label}</h3>
               <span className="shrink-0 rounded bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600">
-                edge −{mechanism.houseEdge}%
+                преимущество {mechanism.houseEdge}%
               </span>
             </div>
             <p className="mt-1 text-sm text-slate-600">{mechanism.technicalName}</p>

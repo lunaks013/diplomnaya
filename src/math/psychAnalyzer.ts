@@ -39,11 +39,11 @@ export function analyzeParameterChange(
   );
 }
 
-export function analyzeCustomRulesChange(rules: CustomGameRules, mechanism: MechanismId): PsychEvent {
+export function analyzeCustomRulesChange(_rules: CustomGameRules, mechanism: MechanismId): PsychEvent {
   return createEvent(
     "illusion_of_control",
     mechanism,
-    `Предупреждение: активирована когнитивная иллюзия контроля. Порог=${rules.winThreshold}, множитель=${rules.payoutMultiplier}. Изменение правил не меняет E[profit] < 0.`,
+    `Предупреждение: активирована когнитивная иллюзия контроля. Изменение правил не делает серию выгодной для пользователя.`,
     "Префронтальная кора (лateral PFC)",
   );
 }
@@ -105,7 +105,7 @@ export function analyzeAfterRound(
       createEvent(
         "win_streak",
         mechanism,
-        `Серия из ${session.consecutiveWins} побед — иллюзия «система работает». E[profit] остаётся отрицательным.`,
+        `Серия из ${session.consecutiveWins} побед — иллюзия «система работает». На длинной дистанции итог всё равно остаётся невыгодным.`,
         "Вентральный striatum",
       ),
     );
@@ -142,7 +142,7 @@ export function analyzeTopUp(
   return createEvent(
     "top_up",
     mechanism,
-    `Пополнение +${amount} ₽ (раз #${topUpCount}) — субъективное «отыграюсь» без изменения матожидания.`,
+    `Пополнение +${amount} ₽ (раз #${topUpCount}) — субъективное «отыграюсь», но это не улучшает итог серии.`,
     "Орбитofrontalная кора",
   );
 }
@@ -156,7 +156,7 @@ export function analyzeStrategyChange(strategy: BettingStrategy, mechanism: Mech
   return createEvent(
     "parameter_change",
     mechanism,
-    `Смена стратегии на «${labels[strategy]}». Ни одна стратегия ставок не меняет отрицательное матожидание.`,
+    `Смена стратегии на «${labels[strategy]}». Ни одна стратегия ставок не делает длительную серию выгодной.`,
     "Префронтальная кора",
   );
 }

@@ -63,6 +63,7 @@ function createSession(balance: number): GameSession {
     currentStreak: 0,
     maxWinStreak: 0,
     lastResult: null,
+    lastRoundMeta: null,
     lastBet: 0,
     pathway: [balance],
     houseAbsorbed: 0,
@@ -187,12 +188,15 @@ export function TelemetryProvider({ children }: { children: ReactNode }) {
         lastBet: current.lastBet,
       };
 
-      const { result, bet } = await playRoundWithBalance(mechanism, current.balance, {
-        params,
-        customRules,
-        strategyState,
-        provablyFair: getProvablyFairState(),
-      });
+      const [{ result, bet }] = await Promise.all([
+        playRoundWithBalance(mechanism, current.balance, {
+          params,
+          customRules,
+          strategyState,
+          provablyFair: getProvablyFairState(),
+        }),
+        new Promise<void>((resolve) => setTimeout(resolve, 1100)),
+      ]);
 
       if (bet <= 0) return;
 
@@ -200,6 +204,7 @@ export function TelemetryProvider({ children }: { children: ReactNode }) {
       s.betsPlayed += 1;
       s.lastBet = bet;
       s.lastResult = result.message;
+      s.lastRoundMeta = result.metadata ?? null;
       s.balance = Math.max(0, s.balance + result.netChange);
       s.houseAbsorbed += result.netChange < 0 ? Math.abs(result.netChange) : 0;
       s.pathway = [...s.pathway, s.balance];

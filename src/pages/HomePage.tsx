@@ -8,34 +8,34 @@ import { IMAGES } from "../lib/images";
 import { MECHANISM_LIST } from "../math/mechanisms";
 
 const steps = [
-  "Продемонстрировать 4 механизма генерации случайных чисел и их программную реализацию",
-  "Провести серию экспериментальных итераций и зафиксировать поведенческие наблюдения",
-  "Выполнить моделирование методом Монте-Карло и сравнить результаты по всем механизмам",
+  "Открыть «Программу» и показать четыре исследовательских модуля",
+  "Сыграть несколько раундов и показать, какие действия фиксирует система",
+  "Перейти в «Итоги» и объяснить, как меняется баланс на длинной серии",
 ];
 
 const features = [
   {
     icon: Code2,
-    title: "4 механизма RNG",
-    text: "LCG PRNG, CSPRNG, взвешенное распределение, Provably Fair (SHA-256)",
+    title: "4 понятных модуля",
+    text: "Рулетка, кости, карты и слот показывают разные способы получения случайного результата",
   },
   {
     icon: FlaskConical,
     title: "Поведенческий анализ",
-    text: "Журнал наблюдений: пополнение счёта, серии исходов, эффект near-miss",
+    text: "Система фиксирует пополнения, серии проигрышей и эффект «почти выиграл»",
   },
   {
     icon: BarChart3,
-    title: "Монте-Карло",
-    text: "50 параллельных траекторий капитала для каждого механизма",
+    title: "Рабочие итоги",
+    text: "После игры сайт показывает баланс, победы, проигрыши и итог по каждому модулю",
   },
 ];
 
 const stats = [
-  { value: "4", label: "механизма RNG" },
+  { value: "4", label: "механизма случайности" },
   { value: "4", label: "программных модуля" },
-  { value: "50", label: "траекторий MC" },
-  { value: "E[Δ]<0", label: "для всех модулей", accent: true },
+  { value: "50", label: "траекторий анализа" },
+  { value: "итог ниже 0", label: "для всех модулей", accent: true },
 ];
 
 export function HomePage() {
@@ -44,8 +44,46 @@ export function HomePage() {
       <PageHeader
         label="Дипломная работа · 2026"
         title="Анализ гемблинга (лудомании)"
-        description="На примере разработки программного комплекса и сводки результатов моделирования. Демонстрация того, что отрицательное математическое ожидание сохраняется при любом механизме рандомизации."
+        description="Интерактивный программный комплекс, который показывает, как случайные исходы, серии проигрышей и попытки отыграться влияют на поведение пользователя."
       />
+
+      <section className="glass mb-8 overflow-hidden p-6 md:p-8">
+        <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+          <div>
+            <p className="section-label">Что показывает сайт</p>
+            <h2 className="text-2xl font-black leading-tight text-slate-900 md:text-3xl">
+              Не казино, а учебная модель для анализа поведения при случайных исходах
+            </h2>
+            <p className="mt-4 text-sm leading-relaxed text-slate-600">
+              Пользователь запускает демонстрационные раунды, а сайт собирает сведения: сколько было
+              ставок, как менялся баланс, были ли серии проигрышей, пополнения и ситуации «почти выиграл».
+              Эти данные затем используются в теории и итогах.
+            </p>
+            <div className="mt-5 flex flex-wrap gap-3">
+              <Link to="/games" className="btn-primary">
+                Начать демонстрацию
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link to="/theory" className="btn-outline">
+                Понять теорию
+              </Link>
+            </div>
+          </div>
+          <div className="rounded-card border border-ozon-border bg-slate-50 p-5">
+            <p className="text-sm font-semibold text-slate-900">Логика работы</p>
+            <div className="mt-4 space-y-3">
+              {["Игрок делает ставку", "Система выбирает случайный исход", "Баланс меняется", "Теория объясняет поведение", "Итоги показывают результат"].map((item, index) => (
+                <div key={item} className="flex items-center gap-3 rounded-card bg-white px-4 py-3 text-sm text-slate-700">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#1e3a5f] text-xs font-bold text-white">
+                    {index + 1}
+                  </span>
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
 
       <AcademicFigure
         src={IMAGES.hero}
@@ -143,7 +181,7 @@ export function HomePage() {
             Перейти к экспериментальной части
           </h2>
           <p className="mt-1 text-sm text-slate-600">
-            Модули RNG · журнал наблюдений · Монте-Карло · сводная таблица
+            Игровые модули · журнал наблюдений · моделирование · сводная таблица
           </p>
         </div>
         <Link to="/games" className="btn-primary shrink-0">

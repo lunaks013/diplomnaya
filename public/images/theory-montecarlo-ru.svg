@@ -78,7 +78,7 @@
     <line x1="836" y1="94" x2="866" y2="94" stroke="#1e3a5f" stroke-width="2.2"/>
     <text x="874" y="98" font-family="Arial, sans-serif" font-size="11" fill="#475569">Примеры траекторий</text>
   </g>
-  <text x="48" y="490" font-family="Arial, sans-serif" font-size="13" fill="#475569">Каждая линия — независимая траектория капитала. Среднее E[Δ] отрицательно для всех механизмов RNG.</text>
+  <text x="48" y="490" font-family="Arial, sans-serif" font-size="13" fill="#475569">Каждая линия — независимая траектория капитала. В среднем для всех механизмов RNG итог серии остаётся невыгодным.</text>
   <rect x="900" y="468" width="252" height="36" rx="8" fill="#1e3a5f"/>
   <text x="1026" y="491" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#ffffff">Сравнение 4 механизмов</text>
 </svg>

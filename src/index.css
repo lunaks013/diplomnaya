@@ -186,6 +186,434 @@
   .nav-link-inactive:hover {
     color: #fff;
   }
+
+  .game-stage {
+    @apply relative flex min-h-[420px] flex-col items-center justify-center overflow-hidden rounded-2xl px-4 py-8 md:min-h-[460px] md:px-8;
+    background: linear-gradient(180deg, #0b1a2e 0%, #12243d 50%, #0d1c31 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .game-stage-grid {
+    @apply pointer-events-none absolute inset-0 opacity-30;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .game-panel {
+    @apply relative z-10 flex w-full max-w-xl flex-col items-center gap-5;
+  }
+
+  .game-module-title {
+    @apply flex w-full items-center justify-center gap-3 text-xs font-semibold uppercase tracking-[0.35em] text-gold;
+  }
+
+  .game-module-line {
+    @apply h-px w-10;
+    background: rgba(201, 162, 39, 0.4);
+  }
+
+  .game-machine-frame {
+    @apply w-full rounded-2xl border border-white/10 p-5;
+    background: rgba(8, 18, 32, 0.55);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+
+  .game-reel-pro {
+    @apply flex min-h-[120px] flex-col items-center justify-center rounded-xl border border-white/10 px-3;
+    background: linear-gradient(180deg, rgba(26, 48, 80, 0.9) 0%, rgba(12, 28, 48, 0.95) 100%);
+    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.28);
+  }
+
+  .game-reel-compact {
+    @apply min-h-[72px];
+  }
+
+  .game-reel-label {
+    @apply mt-2 text-[11px] font-bold uppercase tracking-wide;
+  }
+
+  .game-reel-spin-text {
+    @apply text-2xl font-bold tracking-[0.4em] text-white/50;
+  }
+
+  .game-die-pro {
+    @apply relative h-28 w-28 rounded-[18px] border border-white/30;
+    background: linear-gradient(145deg, #ffffff 0%, #f3f6fa 55%, #e7edf5 100%);
+    box-shadow:
+      0 14px 30px rgba(0, 0, 0, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  }
+
+  .game-die-grid {
+    @apply grid h-full w-full grid-cols-3 grid-rows-3 gap-2 p-4;
+  }
+
+  .game-die-pip {
+    @apply h-3.5 w-3.5 rounded-full;
+    background: transparent;
+  }
+
+  .game-die-pip-on {
+    background: radial-gradient(circle at 30% 30%, #2d4a73 0%, #1e3a5f 70%);
+    box-shadow: inset 0 -1px 2px rgba(0, 0, 0, 0.25);
+  }
+
+  .game-card-pro {
+    @apply relative h-40 w-[108px];
+    perspective: 1200px;
+    transform-style: preserve-3d;
+  }
+
+  .game-card-face {
+    @apply absolute inset-0 overflow-hidden rounded-xl border border-white/40;
+    backface-visibility: hidden;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.32);
+  }
+
+  .game-card-front-face {
+    background: linear-gradient(160deg, #ffffff 0%, #f8fafc 100%);
+  }
+
+  .game-card-back-face {
+    @apply flex items-center justify-center;
+    background: linear-gradient(145deg, #1a3050 0%, #0a1628 100%);
+  }
+
+  .game-card-pattern {
+    @apply absolute inset-0 opacity-20;
+    background-image: repeating-linear-gradient(
+      45deg,
+      rgba(201, 162, 39, 0.35) 0,
+      rgba(201, 162, 39, 0.35) 1px,
+      transparent 1px,
+      transparent 8px
+    );
+  }
+
+  .game-card-back-mark {
+    @apply text-3xl text-gold;
+  }
+
+  .game-card-corner {
+    @apply absolute left-2.5 top-2 flex flex-col items-center text-xs font-bold leading-none;
+  }
+
+  .game-card-corner-bl {
+    @apply left-auto right-2.5 top-auto bottom-2.5 rotate-180;
+  }
+
+  .game-card-suit {
+    @apply absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-5xl;
+  }
+
+  .slot-cabinet {
+    @apply w-full rounded-2xl border border-white/10 px-4 py-6 md:px-6;
+    background: linear-gradient(180deg, rgba(10, 22, 40, 0.85) 0%, rgba(14, 30, 52, 0.92) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  }
+
+  .slot-wheel-assembly {
+    @apply relative mx-auto flex items-center justify-center;
+    width: 248px;
+    height: 268px;
+  }
+
+  .slot-wheel-rotor {
+    @apply flex items-center justify-center;
+    width: 240px;
+    height: 240px;
+  }
+
+  .slot-wheel-svg {
+    @apply h-full w-full;
+  }
+
+  .slot-wheel-pointer {
+    @apply absolute left-1/2 top-0 z-20 flex -translate-x-1/2 flex-col items-center;
+  }
+
+  .slot-wheel-pointer-cap {
+    @apply block h-3 w-3 rounded-full;
+    background: #c9a227;
+    box-shadow: 0 0 8px rgba(201, 162, 39, 0.55);
+  }
+
+  .slot-wheel-pointer-stem {
+    @apply block h-0 w-0;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-top: 16px solid #c9a227;
+    margin-top: 2px;
+  }
+
+  .slot-sector-strip {
+    @apply mt-5 grid grid-cols-3 gap-2;
+  }
+
+  .slot-sector-cell {
+    @apply rounded-lg border border-white/10 px-2 py-2.5 text-center;
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .slot-sector-cell-active {
+    border-color: rgba(201, 162, 39, 0.55);
+    background: rgba(201, 162, 39, 0.1);
+  }
+
+  .slot-sector-cell-near {
+    border-color: rgba(251, 191, 36, 0.35);
+  }
+
+  .slot-sector-cell-label {
+    @apply block text-[9px] uppercase tracking-wider text-white/40;
+  }
+
+  .slot-sector-cell-value {
+    @apply mt-1 block text-sm font-bold text-white;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .roulette-cabinet {
+    @apply w-full overflow-hidden rounded-2xl border border-white/10;
+    background: linear-gradient(180deg, #12243d 0%, #0a1628 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+
+  .roulette-cabinet-top {
+    height: 10px;
+    background: linear-gradient(90deg, #8b6914 0%, #c9a227 50%, #8b6914 100%);
+  }
+
+  .roulette-cabinet-base {
+    height: 8px;
+    background: #0a1628;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .roulette-window-row {
+    @apply grid grid-cols-3 gap-3 px-5 py-6;
+  }
+
+  .roulette-window {
+    @apply rounded-xl border-2 border-[#c9a227]/40 p-1;
+    background: #060f1c;
+    box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.55);
+  }
+
+  .roulette-window-inner {
+    @apply flex min-h-[108px] flex-col items-center justify-center rounded-lg border border-white/5 px-2;
+    background: linear-gradient(180deg, #0f2238 0%, #162d4a 100%);
+  }
+
+  .roulette-symbol {
+    @apply text-3xl font-black leading-none;
+  }
+
+  .roulette-symbol-wait {
+    @apply tracking-[0.35em] text-white/35;
+  }
+
+  .roulette-caption {
+    @apply mt-2 text-[10px] font-semibold uppercase tracking-wide text-white/55;
+  }
+
+  .game-readout {
+    @apply grid w-full gap-2 sm:grid-cols-3;
+  }
+
+  .game-readout-item {
+    @apply rounded-lg border border-white/10 px-3 py-2 text-center;
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .game-readout-label {
+    @apply block text-[10px] uppercase tracking-wide text-white/45;
+  }
+
+  .game-readout-value {
+    @apply mt-1 block text-sm font-semibold text-white/90;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .game-status {
+    @apply inline-flex rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-wide;
+  }
+
+  .game-status-play {
+    @apply bg-sky-400/15 text-sky-200;
+  }
+
+  .game-status-wait {
+    @apply bg-white/10 text-white/50;
+  }
+
+  .game-status-win {
+    @apply bg-emerald-400/15 text-emerald-200;
+  }
+
+  .game-status-near {
+    @apply bg-amber-400/15 text-amber-200;
+  }
+
+  .game-status-loss {
+    @apply bg-rose-400/15 text-rose-200;
+  }
+
+  .game-result-line {
+    @apply relative z-10 mt-2 text-center text-sm font-medium text-white/65;
+  }
+
+  .game-hud-stat {
+    @apply rounded-xl bg-slate-50 px-3 py-2 text-center;
+  }
+
+  .game-play-btn {
+    @apply min-w-[140px] px-8 py-3.5 text-base font-bold;
+  }
+
+  .results-table-card {
+    @apply overflow-hidden rounded-card border border-ozon-border bg-white;
+    box-shadow: 0 4px 24px rgba(10, 22, 40, 0.06);
+  }
+
+  .results-table-header {
+    @apply flex flex-wrap items-end justify-between gap-3 border-b border-ozon-border px-5 py-4 md:px-6;
+    background: linear-gradient(135deg, #0a1628 0%, #1a3050 100%);
+  }
+
+  .results-table-eyebrow {
+    @apply text-[10px] font-bold uppercase tracking-[0.25em];
+    color: #c9a227;
+  }
+
+  .results-table-title {
+    @apply mt-1 text-lg font-bold text-white md:text-xl;
+  }
+
+  .results-table-note {
+    @apply text-xs text-white/60;
+  }
+
+  .results-table {
+    @apply w-full min-w-[640px] border-collapse text-sm;
+  }
+
+  .results-table thead tr {
+    background: #f8fafc;
+  }
+
+  .results-table th {
+    @apply border-b border-ozon-border px-5 py-3 text-left text-xs font-bold uppercase tracking-wide text-slate-500;
+  }
+
+  .results-table td {
+    @apply border-b border-slate-100 px-5 py-4 align-middle;
+  }
+
+  .results-table tbody tr:last-child td {
+    @apply border-b-0;
+  }
+
+  .results-table tbody tr:hover {
+    background: #f8fafc;
+  }
+
+  .results-table-mechanism {
+    @apply flex items-center gap-3;
+  }
+
+  .results-table-dot {
+    @apply h-2.5 w-2.5 shrink-0 rounded-full;
+  }
+
+  .results-table-mechanism-name {
+    @apply font-semibold text-slate-900;
+  }
+
+  .results-table-mechanism-sub {
+    @apply mt-0.5 text-xs text-slate-500;
+  }
+
+  .results-table-module {
+    @apply inline-flex rounded-md bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700;
+  }
+
+  .results-table-badge {
+    @apply inline-flex rounded-md px-2.5 py-1 text-xs font-bold;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .results-table-badge-edge {
+    @apply bg-red-50 text-red-700;
+  }
+
+  .results-table-badge-win {
+    @apply bg-emerald-50 text-emerald-700;
+  }
+
+  .results-table-badge-loss {
+    @apply bg-red-50 text-red-700;
+  }
+
+  .results-table-muted {
+    @apply text-sm font-medium text-slate-500;
+  }
+
+  .results-table-desktop {
+    @apply hidden md:block;
+  }
+
+  .results-table-mobile {
+    @apply divide-y divide-slate-100 md:hidden;
+  }
+
+  .results-table-mobile-row {
+    @apply px-4 py-4;
+  }
+
+  .results-table-mobile-stat {
+    @apply flex flex-col items-center gap-1.5 rounded-lg bg-slate-50 px-2 py-2;
+  }
+
+  .results-table-mobile-label {
+    @apply text-[10px] uppercase tracking-wide text-slate-500;
+  }
+
+  .data-table {
+    @apply w-full min-w-[640px] border-collapse text-sm;
+  }
+
+  .data-table thead tr {
+    background: #f8fafc;
+  }
+
+  .data-table th {
+    @apply border-b border-ozon-border px-4 py-3 text-left text-xs font-bold uppercase tracking-wide text-slate-500;
+  }
+
+  .data-table td {
+    @apply border-b border-slate-100 px-4 py-3 align-middle;
+  }
+
+  .data-table tbody tr:last-child td {
+    @apply border-b-0;
+  }
+
+  .data-table tbody tr:hover {
+    background: #f8fafc;
+  }
+}
+
+@keyframes reel-shake {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
 @layer utilities {
