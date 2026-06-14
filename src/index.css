@@ -98,6 +98,114 @@
     box-shadow: 0 4px 24px rgba(10, 22, 40, 0.06);
   }
 
+  .home-hero {
+    @apply overflow-hidden rounded-card border border-ozon-border;
+    display: grid;
+    grid-template-columns: 1fr;
+    box-shadow: 0 8px 32px rgba(10, 22, 40, 0.1);
+  }
+
+  @media (min-width: 900px) {
+    .home-hero {
+      grid-template-columns: 1.05fr 0.95fr;
+    }
+  }
+
+  .home-hero-main {
+    @apply p-6 md:p-8;
+    background: linear-gradient(145deg, #0a1628 0%, #152a45 55%, #1a3050 100%);
+    color: #fff;
+  }
+
+  .home-hero-label {
+    @apply text-[10px] font-bold uppercase tracking-[0.28em];
+    color: #c9a227;
+  }
+
+  .home-hero-title {
+    @apply mt-3 text-xl font-bold leading-snug md:text-2xl;
+    color: #fff;
+  }
+
+  .home-hero-text {
+    @apply mt-3 text-sm leading-relaxed;
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .home-hero-games {
+    @apply mt-5 flex flex-wrap gap-2;
+  }
+
+  .home-hero-game {
+    @apply rounded-md px-2.5 py-1 text-xs font-semibold;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .home-hero-actions {
+    @apply mt-6 flex flex-wrap gap-3;
+  }
+
+  .home-hero-btn-light {
+    @apply border-white/20 bg-white/5 text-white;
+  }
+
+  .home-hero-btn-light:hover {
+    @apply border-gold text-white;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .home-hero-flow-panel {
+    @apply bg-white p-6 md:p-8;
+  }
+
+  .home-hero-flow-title {
+    @apply mb-5 text-sm font-bold text-slate-900;
+  }
+
+  .home-hero-flow {
+    @apply flex flex-col gap-3;
+  }
+
+  @media (min-width: 640px) {
+    .home-hero-flow {
+      flex-direction: row;
+      align-items: stretch;
+      flex-wrap: wrap;
+    }
+  }
+
+  .home-hero-flow-item {
+    @apply flex flex-1 items-center gap-2;
+    min-width: 120px;
+  }
+
+  .home-hero-flow-step {
+    @apply relative flex flex-1 flex-col items-center rounded-xl border border-slate-200 bg-slate-50 px-3 py-4 text-center;
+  }
+
+  .home-hero-flow-num {
+    @apply absolute -top-2.5 flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold text-white;
+    background: #1e3a5f;
+  }
+
+  .home-hero-flow-icon {
+    @apply h-6 w-6 text-[#1e3a5f];
+  }
+
+  .home-hero-flow-name {
+    @apply mt-2 text-sm font-bold text-slate-900;
+  }
+
+  .home-hero-flow-desc {
+    @apply mt-1 text-[11px] leading-snug text-slate-500;
+  }
+
+  .home-hero-flow-arrow {
+    @apply hidden shrink-0 text-lg font-bold text-slate-300 sm:inline;
+  }
+
   .tab-bar {
     @apply flex gap-1 rounded-card p-1.5;
     background: #0a1628;

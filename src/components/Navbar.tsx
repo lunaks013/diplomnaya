@@ -19,12 +19,7 @@ export function Navbar() {
           <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gold text-sm font-black text-navy">
             А
           </span>
-          <div className="hidden sm:block">
-            <span className="block text-sm font-bold text-white">
-              Анализ гемблинга
-            </span>
-            <span className="block text-[10px] text-white/55">Дипломная работа · 2026</span>
-          </div>
+          <span className="hidden text-sm font-bold text-white sm:block">Анализ гемблинга</span>
         </NavLink>
 
         <nav className="mx-auto hidden items-stretch md:flex">
@@ -42,13 +37,9 @@ export function Navbar() {
           ))}
         </nav>
 
-        <NavLink to="/games" className="btn-primary my-2 hidden !px-4 !py-2 text-xs md:inline-flex">
-          Программа
-        </NavLink>
-
         <button
           type="button"
-          className="ml-auto flex h-10 w-10 items-center justify-center text-white md:ml-0 md:hidden"
+          className="ml-auto flex h-10 w-10 items-center justify-center text-white md:hidden"
           onClick={() => setOpen((v) => !v)}
           aria-label="Меню"
         >
@@ -71,9 +62,6 @@ export function Navbar() {
               {l.label}
             </NavLink>
           ))}
-          <NavLink to="/games" onClick={() => setOpen(false)} className="btn-primary mt-3 w-full text-center text-sm">
-            Программа
-          </NavLink>
         </nav>
       )}
     </header>
