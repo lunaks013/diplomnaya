@@ -1,16 +1,16 @@
-import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { LiveMonteCarloChart } from "../components/LiveMonteCarloChart";
-import { MechanismCompare } from "../components/MechanismCompare";
-import { MechanismSummaryTable } from "../components/MechanismSummaryTable";
+import { Link, useSearchParams } from "react-router-dom";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { MonteCarloPanel, type MonteCarloSummary } from "../components/MonteCarloPanel";
 import { PageHeader } from "../components/PageHeader";
 import { PsychLog } from "../components/lab/PsychLog";
 import { StatCard } from "../components/StatCard";
-import { useTelemetry, MONTE_CARLO_PATHWAYS } from "../context/TelemetryContext";
-import { compareAllMechanisms } from "../math/monteCarlo";
+import { useTelemetry } from "../context/TelemetryContext";
+import { compareAllMechanisms, MONTE_CARLO_BETS, MONTE_CARLO_PATHWAYS } from "../math/monteCarlo";
 import { ALL_MECHANISM_IDS, MECHANISMS } from "../math/mechanisms";
 import type { MechanismComparison } from "../math/monteCarlo";
 import type { MechanismId } from "../types";
+
+type ResultsTab = "games" | "monte-carlo";
 
 function formatMoney(n: number): string {
   return n.toLocaleString("ru-RU", { maximumFractionDigits: 0 }) + " ₽";
@@ -21,11 +21,38 @@ function formatProfit(n: number): string {
   return sign + formatMoney(Math.abs(n)).replace(" ₽", "") + " ₽";
 }
 
+function aggregateMonteCarloBalances(data: MechanismComparison[]): number[] {
+  if (data.length === 0) return [];
+  const maxLen = Math.max(...data.map((row) => row.averageBalances.length));
+  return Array.from({ length: maxLen }, (_, index) => {
+    const values = data
+      .map((row) => row.averageBalances[index])
+      .filter((value): value is number => typeof value === "number");
+    if (values.length === 0) return 0;
+    return values.reduce((sum, value) => sum + value, 0) / values.length;
+  });
+}
+
+function buildSummary(comparison: MechanismComparison[]): MonteCarloSummary {
+  const avgProfit =
+    comparison.reduce((sum, row) => sum + row.stats.averageProfit, 0) / comparison.length;
+  const avgBankruptcy =
+    comparison.reduce((sum, row) => sum + row.stats.bankruptcyRate, 0) / comparison.length;
+  const maxBankruptcy = comparison.reduce(
+    (worst, row) => (row.stats.bankruptcyRate > worst.stats.bankruptcyRate ? row : worst),
+    comparison[0],
+  );
+  const avgFinal =
+    comparison.reduce((sum, row) => sum + row.stats.averageFinalBalance, 0) / comparison.length;
+
+  return { avgProfit, avgBankruptcy, maxBankruptcy, avgFinal };
+}
+
 const MODULE_NAMES: Record<MechanismId, string> = {
-  lcg: "Рулетка",
+  lcg: "Слот",
   csprng: "Кости",
+  weightedWheel: "Рулетка",
   provablyFair: "Карты",
-  weightedWheel: "Слот",
 };
 
 const MODULE_COLORS: Record<MechanismId, string> = {
@@ -35,22 +62,80 @@ const MODULE_COLORS: Record<MechanismId, string> = {
   weightedWheel: "#7c3aed",
 };
 
+const TAB_ITEMS: Array<{ id: ResultsTab; label: string; hint: string }> = [
+  { id: "games", label: "Мои игры", hint: "факт после программы" },
+  { id: "monte-carlo", label: "Монте-Карло", hint: "математический прогноз" },
+];
+
 export function ResultsPage() {
-  const { params, mcResult, activeMechanism, sessions, customRules } = useTelemetry();
+  const { params, sessions, customRules } = useTelemetry();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeTab: ResultsTab = searchParams.get("tab") === "monte-carlo" ? "monte-carlo" : "games";
+
   const [comparison, setComparison] = useState<MechanismComparison[] | null>(null);
   const [loading, setLoading] = useState(true);
+  const [calculationKey, setCalculationKey] = useState(0);
+  const [lastCalculatedAt, setLastCalculatedAt] = useState<Date | null>(null);
+  const [statusMessage, setStatusMessage] = useState<string | null>(null);
+
+  const runComparison = useCallback(
+    (manual = false) => {
+      setLoading(true);
+      if (manual) setStatusMessage(null);
+
+      const newSeed = Date.now();
+      const startedAt = performance.now();
+
+      window.setTimeout(() => {
+        const result = compareAllMechanisms(
+          params,
+          customRules,
+          MONTE_CARLO_PATHWAYS,
+          MONTE_CARLO_BETS,
+          newSeed,
+        );
+        const elapsed = performance.now() - startedAt;
+        const minVisibleMs = manual ? 650 : 0;
+        const waitMs = Math.max(0, minVisibleMs - elapsed);
+
+        window.setTimeout(() => {
+          setComparison(result);
+          setCalculationKey(newSeed);
+          setLastCalculatedAt(new Date());
+          setLoading(false);
+          if (manual) {
+            setStatusMessage(
+              `Расчёт обновлён в ${new Date().toLocaleTimeString("ru-RU")}. Цифры пересчитаны по новым виртуальным сессиям.`,
+            );
+          }
+        }, waitMs);
+      }, 16);
+    },
+    [params, customRules],
+  );
 
   useEffect(() => {
-    setLoading(true);
-    const timer = window.setTimeout(() => {
-      setComparison(compareAllMechanisms(params, customRules));
-      setLoading(false);
-    }, 0);
-    return () => window.clearTimeout(timer);
-  }, [params, customRules]);
+    runComparison(false);
+  }, [runComparison]);
 
-  const stats = mcResult?.stats;
-  const info = MECHANISMS[activeMechanism];
+  const monteCarloSummary = useMemo(
+    () => (comparison?.length ? buildSummary(comparison) : null),
+    [comparison],
+  );
+
+  const monteCarloAverageBalances = useMemo(
+    () => (comparison ? aggregateMonteCarloBalances(comparison) : []),
+    [comparison],
+  );
+
+  const setTab = (tab: ResultsTab) => {
+    if (tab === "games") {
+      searchParams.delete("tab");
+      setSearchParams(searchParams, { replace: true });
+      return;
+    }
+    setSearchParams({ tab }, { replace: true });
+  };
 
   const sessionRows = ALL_MECHANISM_IDS.map((id) => {
     const session = sessions[id];
@@ -79,141 +164,127 @@ export function ResultsPage() {
       <PageHeader
         label="Сводка результатов"
         title="Итоги анализа"
-        description="Фактические данные после игры и результаты моделирования по четырём механизмам случайности."
+        description={
+          activeTab === "games"
+            ? "Фактические данные после вашей игры в программе."
+            : "Математический прогноз: что в среднем происходит при вашей ставке и балансе."
+        }
       />
 
-      <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard title="Ставок сыграно" value={String(totalBets)} hint="по всем вкладкам" />
-        <StatCard title="Победы / проигрыши" value={`${totalWins} / ${totalLosses}`} hint="фактические исходы" />
-        <StatCard
-          title="Чистый итог"
-          value={formatProfit(totalNetProfit)}
-          valueClassName={totalNetProfit >= 0 ? "text-pos" : "text-neg"}
-        />
-        <StatCard title="Пополнений" value={String(totalTopUps)} hint={`добавлено ${formatMoney(totalExtraDeposited)}`} />
+      <div className="tab-bar mb-8">
+        {TAB_ITEMS.map((tab) => (
+          <button
+            key={tab.id}
+            type="button"
+            onClick={() => setTab(tab.id)}
+            className={`tab-btn flex flex-col items-center gap-0.5 py-2 ${
+              activeTab === tab.id ? "tab-btn-active" : "tab-btn-inactive"
+            }`}
+          >
+            <span>{tab.label}</span>
+            <span className="text-[10px] font-normal opacity-70">{tab.hint}</span>
+          </button>
+        ))}
       </div>
 
-      <section className="mb-10">
-        <h2 className="heading-lg mb-1">Сведения по игровым вкладкам</h2>
-        <p className="mb-5 text-sm text-slate-600">
-          Эти данные обновляются после обычной игры в разделах «Рулетка», «Кости», «Карты» и «Слот».
-        </p>
-
-        {!hasGameplay && (
-          <div className="glass mb-5 p-6 text-center">
-            <p className="text-sm text-slate-600">
-              Пока нет сыгранных ставок. Перейдите в программу, сыграйте хотя бы один раз в любом модуле,
-              и здесь появится фактическая сводка.
-            </p>
-            <Link to="/games" className="btn-primary mt-4 inline-flex">
-              Открыть программу
-            </Link>
-          </div>
-        )}
-
-        <div className="grid gap-4 md:grid-cols-2">
-          {sessionRows.map((row) => (
-            <article key={row.id} className="glass overflow-hidden">
-              <div className="h-1" style={{ background: MODULE_COLORS[row.id] }} />
-              <div className="p-5">
-              <div className="mb-4 flex items-start justify-between gap-3 border-b border-ozon-border pb-3">
-                <div>
-                  <h3 className="text-lg font-bold text-slate-900">{MODULE_NAMES[row.id]}</h3>
-                  <p className="mt-1 text-xs text-slate-500">{MECHANISMS[row.id].label}</p>
-                </div>
-                <p className={`text-right text-lg font-bold ${row.netProfit >= 0 ? "text-pos" : "text-neg"}`}>
-                  {formatProfit(row.netProfit)}
-                </p>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3 text-sm">
-                <div className="rounded-card bg-slate-50 p-3">
-                  <p className="text-xs text-slate-500">Баланс</p>
-                  <p className="mt-1 font-bold text-slate-900">{formatMoney(row.session.balance)}</p>
-                </div>
-                <div className="rounded-card bg-slate-50 p-3">
-                  <p className="text-xs text-slate-500">Ставок</p>
-                  <p className="mt-1 font-bold text-slate-900">{row.session.betsPlayed}</p>
-                </div>
-                <div className="rounded-card bg-slate-50 p-3">
-                  <p className="text-xs text-slate-500">Победы / проигрыши</p>
-                  <p className="mt-1 font-bold text-slate-900">
-                    {row.session.wins} / {row.session.losses}
-                  </p>
-                </div>
-                <div className="rounded-card bg-slate-50 p-3">
-                  <p className="text-xs text-slate-500">Винрейт</p>
-                  <p className="mt-1 font-bold text-slate-900">{row.winRate.toFixed(1)}%</p>
-                </div>
-              </div>
-
-              <p className="mt-3 text-xs leading-relaxed text-slate-500">
-                {row.session.lastResult ?? "В этом модуле ещё не было игровых действий."}
-              </p>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      {mcResult ? (
+      {activeTab === "games" ? (
         <>
-          <p className="mb-4 text-sm text-slate-600">
-            Последний расчёт: <strong className="text-slate-900">{info.gameShell}</strong> ({info.label})
-          </p>
-          <div className="mb-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <StatCard title="Ставок сыграно" value={String(totalBets)} hint="по всем вкладкам" />
+            <StatCard title="Победы / проигрыши" value={`${totalWins} / ${totalLosses}`} hint="фактические исходы" />
             <StatCard
-              title="Средний остаток"
-              value={formatMoney(stats!.averageFinalBalance)}
-              hint={`старт ${formatMoney(params.initialBalance)}`}
+              title="Чистый итог"
+              value={formatProfit(totalNetProfit)}
+              valueClassName={totalNetProfit >= 0 ? "text-pos" : "text-neg"}
             />
-            <StatCard
-              title="Средний итог"
-              value={formatProfit(stats!.averageProfit)}
-              valueClassName={stats!.averageProfit >= 0 ? "text-pos" : "text-neg"}
-            />
-            <StatCard
-              title="Исчерпание капитала"
-              value={`${stats!.bankruptcyRate.toFixed(1)}%`}
-              valueClassName={stats!.bankruptcyRate > 20 ? "text-neg" : ""}
-            />
-            <StatCard
-              title="Доля положит. исходов"
-              value={`${stats!.winRate.toFixed(1)}%`}
-              hint={`теория ${stats!.theoreticalWinRate.toFixed(1)}%`}
-            />
+            <StatCard title="Пополнений" value={String(totalTopUps)} hint={`добавлено ${formatMoney(totalExtraDeposited)}`} />
           </div>
+
+          <section className="mb-10">
+            <h2 className="heading-lg mb-1">Сведения по игровым вкладкам</h2>
+            <p className="mb-5 text-sm text-slate-600">
+              Эти данные появляются после игры в разделе «Программа». Для прогноза на длинной серии
+              перейдите на вкладку{" "}
+              <button type="button" className="font-semibold text-[#1e3a5f] underline" onClick={() => setTab("monte-carlo")}>
+                Монте-Карло
+              </button>
+              .
+            </p>
+
+            {!hasGameplay && (
+              <div className="glass mb-5 p-6 text-center">
+                <p className="text-sm text-slate-600">
+                  Пока нет сыгранных ставок. Сыграйте хотя бы один раз в программе — здесь появится ваша реальная статистика.
+                </p>
+                <Link to="/games" className="btn-primary mt-4 inline-flex">
+                  Открыть программу
+                </Link>
+              </div>
+            )}
+
+            <div className="grid gap-4 md:grid-cols-2">
+              {sessionRows.map((row) => (
+                <article key={row.id} className="glass overflow-hidden">
+                  <div className="h-1" style={{ background: MODULE_COLORS[row.id] }} />
+                  <div className="p-5">
+                    <div className="mb-4 flex items-start justify-between gap-3 border-b border-ozon-border pb-3">
+                      <div>
+                        <h3 className="text-lg font-bold text-slate-900">{MODULE_NAMES[row.id]}</h3>
+                        <p className="mt-1 text-xs text-slate-500">{MECHANISMS[row.id].label}</p>
+                      </div>
+                      <p className={`text-right text-lg font-bold ${row.netProfit >= 0 ? "text-pos" : "text-neg"}`}>
+                        {formatProfit(row.netProfit)}
+                      </p>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3 text-sm">
+                      <div className="rounded-card bg-slate-50 p-3">
+                        <p className="text-xs text-slate-500">Баланс</p>
+                        <p className="mt-1 font-bold text-slate-900">{formatMoney(row.session.balance)}</p>
+                      </div>
+                      <div className="rounded-card bg-slate-50 p-3">
+                        <p className="text-xs text-slate-500">Ставок</p>
+                        <p className="mt-1 font-bold text-slate-900">{row.session.betsPlayed}</p>
+                      </div>
+                      <div className="rounded-card bg-slate-50 p-3">
+                        <p className="text-xs text-slate-500">Победы / проигрыши</p>
+                        <p className="mt-1 font-bold text-slate-900">
+                          {row.session.wins} / {row.session.losses}
+                        </p>
+                      </div>
+                      <div className="rounded-card bg-slate-50 p-3">
+                        <p className="text-xs text-slate-500">Винрейт</p>
+                        <p className="mt-1 font-bold text-slate-900">{row.winRate.toFixed(1)}%</p>
+                      </div>
+                    </div>
+
+                    <p className="mt-3 text-xs leading-relaxed text-slate-500">
+                      {row.session.lastResult ?? "В этом модуле ещё не было игровых действий."}
+                    </p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
         </>
       ) : (
-        <div className="glass mb-10 p-10 text-center">
-          <p className="text-slate-600">Расчёт Монте-Карло ещё не выполнялся.</p>
-          <Link to="/games" className="btn-primary mt-4 inline-flex">
-            Открыть программу
-          </Link>
-        </div>
+        <MonteCarloPanel
+          params={params}
+          sessions={sessions}
+          comparison={comparison}
+          summary={monteCarloSummary}
+          monteCarloAverageBalances={monteCarloAverageBalances}
+          loading={loading}
+          lastCalculatedAt={lastCalculatedAt}
+          calculationKey={calculationKey}
+          statusMessage={statusMessage}
+          onRecalculate={() => runComparison(true)}
+        />
       )}
-
-      <LiveMonteCarloChart sessions={sessions} mcResult={mcResult} startingBalance={params.initialBalance} />
-
-      <section className="mb-10">
-        <h2 className="heading-lg mb-1">Сравнение механизмов</h2>
-        <p className="mb-5 text-sm text-slate-600">
-          Капитал {formatMoney(params.initialBalance)} · ставка {formatMoney(params.baseBet)} ·{" "}
-          {MONTE_CARLO_PATHWAYS} траекторий моделирования
-        </p>
-        {loading || !comparison ? (
-          <div className="glass p-12 text-center text-slate-500">Выполняется расчёт…</div>
-        ) : (
-          <div className="space-y-5">
-            <MechanismSummaryTable data={comparison} />
-            <MechanismCompare data={comparison} />
-          </div>
-        )}
-      </section>
 
       <PsychLog />
 
-      <div className="mt-8 flex gap-4">
+      <div className="mt-8 flex flex-wrap gap-4">
         <Link to="/games" className="btn-primary">
           Программа
         </Link>

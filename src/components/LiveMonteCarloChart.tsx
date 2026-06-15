@@ -14,14 +14,15 @@ import type { GameSession, MechanismId, SimulationResult } from "../types";
 interface LiveMonteCarloChartProps {
   sessions: Record<MechanismId, GameSession>;
   mcResult: SimulationResult | null;
+  monteCarloAverageBalances?: number[];
   startingBalance: number;
 }
 
 const MODULES: Array<{ id: MechanismId; name: string; color: string }> = [
-  { id: "lcg", name: "Рулетка", color: "#1e3a5f" },
+  { id: "lcg", name: "Слот", color: "#1e3a5f" },
   { id: "csprng", name: "Кости", color: "#2563eb" },
   { id: "provablyFair", name: "Карты", color: "#0f766e" },
-  { id: "weightedWheel", name: "Слот", color: "#7c3aed" },
+  { id: "weightedWheel", name: "Рулетка", color: "#7c3aed" },
 ];
 
 function formatMoney(value: number): string {
@@ -51,14 +52,22 @@ function ChartTooltip({
   );
 }
 
-export function LiveMonteCarloChart({ sessions, mcResult, startingBalance }: LiveMonteCarloChartProps) {
+export function LiveMonteCarloChart({
+  sessions,
+  mcResult,
+  monteCarloAverageBalances,
+  startingBalance,
+}: LiveMonteCarloChartProps) {
   const hasGameplay = MODULES.some(({ id }) => sessions[id].betsPlayed > 0 || sessions[id].topUpCount > 0);
-  const hasMonteCarlo = Boolean(mcResult?.averageBalances.length);
+  const mcBalances = mcResult?.averageBalances.length
+    ? mcResult.averageBalances
+    : monteCarloAverageBalances ?? [];
+  const hasMonteCarlo = mcBalances.length > 0;
 
   const maxLength = Math.max(
     2,
     ...MODULES.map(({ id }) => sessions[id].pathway.length),
-    mcResult?.averageBalances.length ?? 0,
+    mcBalances.length,
   );
 
   const data = Array.from({ length: maxLength }, (_, index) => {
@@ -69,8 +78,8 @@ export function LiveMonteCarloChart({ sessions, mcResult, startingBalance }: Liv
       point[id] = pathway[index] ?? pathway[pathway.length - 1] ?? null;
     }
 
-    if (mcResult?.averageBalances[index] !== undefined) {
-      point.monteCarloAverage = mcResult.averageBalances[index];
+    if (mcBalances[index] !== undefined) {
+      point.monteCarloAverage = mcBalances[index];
     }
 
     return point;
@@ -79,10 +88,10 @@ export function LiveMonteCarloChart({ sessions, mcResult, startingBalance }: Liv
   if (!hasGameplay && !hasMonteCarlo) {
     return (
       <div className="glass mb-8 p-8 text-center">
-        <h2 className="heading-lg mb-2">Рабочая диаграмма результатов</h2>
+        <h2 className="heading-lg mb-2">Диаграмма баланса</h2>
         <p className="text-sm leading-relaxed text-slate-600">
-          Пока нет данных для построения графика. Перейдите во вкладку «Программа», сыграйте несколько
-          раундов в рулетку, кости, карты или слот, и здесь появятся реальные траектории баланса.
+          Жёлтая пунктирная линия — средний прогноз Монте-Карло (уже рассчитан ниже). Цветные линии появятся,
+          когда вы сыграете хотя бы один раунд в программе.
         </p>
       </div>
     );
@@ -92,10 +101,10 @@ export function LiveMonteCarloChart({ sessions, mcResult, startingBalance }: Liv
     <section className="glass mb-8 p-5 md:p-6">
       <div className="mb-4 flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h2 className="heading-lg">Рабочая диаграмма результатов</h2>
+          <h2 className="heading-lg">Диаграмма баланса</h2>
           <p className="mt-1 text-sm leading-relaxed text-slate-600">
-            График строится по реальным данным из вкладки «Программа»: каждая линия показывает, как
-            менялся баланс в отдельном модуле после ставок и пополнений.
+            Цветные линии — ваш реальный баланс в каждой игре. Жёлтая пунктирная — средний прогноз
+            Монте-Карло при тех же ставке и стартовом капитале.
           </p>
         </div>
         <div className="rounded-card bg-slate-50 px-4 py-3 text-sm">

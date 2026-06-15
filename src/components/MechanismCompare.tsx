@@ -23,9 +23,9 @@ const tooltipStyle = {
 };
 
 const shortNames: Record<MechanismId, string> = {
-  lcg: "Рулетка",
+  lcg: "Слот",
   csprng: "Кости",
-  weightedWheel: "Слот",
+  weightedWheel: "Рулетка",
   provablyFair: "Карты",
 };
 

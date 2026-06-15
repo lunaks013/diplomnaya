@@ -7,10 +7,10 @@ interface MechanismSummaryTableProps {
 }
 
 const GAME_NAMES: Record<MechanismId, string> = {
-  lcg: "Рулетка",
+  lcg: "Слот",
   csprng: "Кости",
+  weightedWheel: "Рулетка",
   provablyFair: "Карты",
-  weightedWheel: "Слот",
 };
 
 const GAME_COLORS: Record<MechanismId, string> = {

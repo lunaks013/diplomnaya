@@ -194,6 +194,7 @@ export function TelemetryProvider({ children }: { children: ReactNode }) {
           customRules,
           strategyState,
           provablyFair: getProvablyFairState(),
+          session: { betsPlayed: current.betsPlayed, initialBalance: current.initialBalance },
         }),
         new Promise<void>((resolve) => setTimeout(resolve, 1100)),
       ]);
@@ -285,7 +286,7 @@ export function TelemetryProvider({ children }: { children: ReactNode }) {
   const runMonteCarloSim = useCallback(() => {
     setIsSimulating(true);
     setTimeout(() => {
-      const result = runMonteCarlo(activeMechanism, params, customRules, MONTE_CARLO_PATHWAYS, MONTE_CARLO_BETS);
+      const result = runMonteCarlo(activeMechanism, params, customRules, MONTE_CARLO_PATHWAYS, MONTE_CARLO_BETS, Date.now());
       setMcResult(result);
       setIsSimulating(false);
       addPsychEvents([

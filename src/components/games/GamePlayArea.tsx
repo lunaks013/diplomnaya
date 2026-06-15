@@ -12,6 +12,9 @@ const SYMBOL_META: Record<string, { emoji: string; label: string; color: string 
   CH: { emoji: "🍒", label: "Вишня", color: "#dc2626" },
   LM: { emoji: "🍋", label: "Лимон", color: "#eab308" },
   OR: { emoji: "🍊", label: "Апельсин", color: "#f97316" },
+  GR: { emoji: "🍇", label: "Виноград", color: "#7c3aed" },
+  BL: { emoji: "🔔", label: "Колокол", color: "#ca8a04" },
+  DI: { emoji: "💎", label: "Алмаз", color: "#0891b2" },
 };
 
 const RANKS = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"] as const;
@@ -33,7 +36,11 @@ function getResultTone(lastResult: string | null): "waiting" | "win" | "near" | 
   return "loss";
 }
 
-function parseReels(lastResult: string | null): string[] {
+function parseReels(lastResult: string | null, meta: RoundMeta): string[] {
+  const fromMeta = meta?.reels;
+  if (typeof fromMeta === "string" && fromMeta.length > 0) {
+    return fromMeta.split(",").map((item) => item.trim()).slice(0, 3);
+  }
   const match = lastResult?.match(/комбинация:\s*([^.]*)/i);
   if (!match) return ["?", "?", "?"];
   return match[1].split("|").map((item) => item.trim()).slice(0, 3);
@@ -177,19 +184,21 @@ function OutcomeBadge({ tone, isPlaying }: { tone: "waiting" | "win" | "near" | 
   return <span className="game-status game-status-loss">Отрицательный исход</span>;
 }
 
-function RouletteGame({
+function SlotReelsGame({
   lastResult,
+  lastRoundMeta,
   isPlaying,
 }: {
   lastResult: string | null;
+  lastRoundMeta: RoundMeta;
   isPlaying: boolean;
 }) {
-  const reels = parseReels(lastResult);
+  const reels = parseReels(lastResult, lastRoundMeta);
   const tone = getResultTone(lastResult);
 
   return (
     <div className="game-panel">
-      <ModuleTitle>Рулетка</ModuleTitle>
+      <ModuleTitle>Слот</ModuleTitle>
       <div className="roulette-cabinet">
         <div className="roulette-cabinet-top" />
         <div className="roulette-window-row">
@@ -242,9 +251,12 @@ function DiceGame({
   const crashPoint = typeof lastRoundMeta?.crashPoint === "number" ? lastRoundMeta.crashPoint : null;
 
   const settledDice = useMemo<[number, number]>(() => {
-    if (crashPoint == null) return [1, 1];
-    return crashToDice(crashPoint);
-  }, [crashPoint]);
+    const d1 = lastRoundMeta?.die1;
+    const d2 = lastRoundMeta?.die2;
+    if (typeof d1 === "number" && typeof d2 === "number") return [d1, d2];
+    if (crashPoint != null) return crashToDice(crashPoint);
+    return [1, 1];
+  }, [lastRoundMeta, crashPoint]);
 
   const displayDice = useSpinningValues(isPlaying, settledDice, randomDice);
 
@@ -296,9 +308,14 @@ function CardsGame({
   const nonce = typeof lastRoundMeta?.nonce === "number" ? lastRoundMeta.nonce : 0;
 
   const settledCards = useMemo(() => {
+    const c1 = lastRoundMeta?.card1;
+    const c2 = lastRoundMeta?.card2;
+    if (typeof c1 === "number" && typeof c2 === "number") {
+      return [indexToCard(c1), indexToCard(c2)] as const;
+    }
     if (roll == null) return [indexToCard(0), indexToCard(13)] as const;
     return [indexToCard(roll), indexToCard(roll * 5 + nonce * 7)] as const;
-  }, [roll, nonce]);
+  }, [roll, nonce, lastRoundMeta]);
 
   const displayCards = useSpinningValues(isPlaying, settledCards, randomCards);
 
@@ -331,7 +348,7 @@ function CardsGame({
   );
 }
 
-function SlotGame({
+function RouletteWheelGame({
   lastResult,
   lastRoundMeta,
   isPlaying,
@@ -354,7 +371,7 @@ function SlotGame({
 
   return (
     <div className="game-panel">
-      <ModuleTitle>Слот</ModuleTitle>
+      <ModuleTitle>Рулетка</ModuleTitle>
       <div className="slot-cabinet">
         <SectorWheel sectors={WHEEL_SECTORS} rotation={angle} spinning={isPlaying} activeLabel={sector} />
         <div className="slot-sector-strip">
@@ -399,7 +416,9 @@ export function GamePlayArea({
   return (
     <div className="game-stage">
       <div className="game-stage-grid" />
-      {mechanism === "lcg" && <RouletteGame lastResult={lastResult} isPlaying={isPlaying} />}
+      {mechanism === "lcg" && (
+        <SlotReelsGame lastResult={lastResult} lastRoundMeta={lastRoundMeta} isPlaying={isPlaying} />
+      )}
       {mechanism === "csprng" && (
         <DiceGame
           lastResult={lastResult}
@@ -412,7 +431,7 @@ export function GamePlayArea({
         <CardsGame lastResult={lastResult} lastRoundMeta={lastRoundMeta} isPlaying={isPlaying} />
       )}
       {mechanism === "weightedWheel" && (
-        <SlotGame lastResult={lastResult} lastRoundMeta={lastRoundMeta} isPlaying={isPlaying} />
+        <RouletteWheelGame lastResult={lastResult} lastRoundMeta={lastRoundMeta} isPlaying={isPlaying} />
       )}
       <p className="game-result-line">{shortResult(lastResult)}</p>
     </div>

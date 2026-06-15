@@ -10,9 +10,9 @@ const MECHANISM_ICON: Record<MechanismId, typeof Binary> = {
 };
 
 const GAME_NAMES: Record<MechanismId, string> = {
-  lcg: "Рулетка",
+  lcg: "Слот",
   csprng: "Кости",
-  weightedWheel: "Слот",
+  weightedWheel: "Рулетка",
   provablyFair: "Карты",
 };
 

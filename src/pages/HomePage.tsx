@@ -18,10 +18,10 @@ const GAME_FLOW = [
   { icon: Coins, title: "Ставка", text: "Выбираете сумму" },
   { icon: Dices, title: "Раунд", text: "Система даёт исход" },
   { icon: Sparkles, title: "Баланс", text: "Счёт меняется" },
-  { icon: BarChart3, title: "Анализ", text: "Данные в «Итогах»" },
+  { icon: BarChart3, title: "Итоги", text: "Игра + Монте-Карло" },
 ];
 
-const GAMES = ["Рулетка", "Кости", "Карты", "Слот"];
+const GAMES = ["Слот", "Кости", "Карты", "Рулетка"];
 
 export function HomePage() {
   return (
@@ -58,8 +58,8 @@ export function HomePage() {
             <Link to="/theory" className="btn-outline home-hero-btn-light">
               Теория
             </Link>
-            <Link to="/results" className="btn-outline home-hero-btn-light">
-              Итоги
+            <Link to="/results?tab=monte-carlo" className="btn-outline home-hero-btn-light">
+              Монте-Карло
             </Link>
           </div>
         </div>

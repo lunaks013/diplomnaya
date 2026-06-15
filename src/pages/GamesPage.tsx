@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { GamePlayArea } from "../components/games/GamePlayArea";
 import { useTelemetry } from "../context/TelemetryContext";
 import type { MechanismId } from "../types";
@@ -22,10 +22,10 @@ export function GamesPage() {
   const tabs = useMemo(
     () =>
       [
-        { id: "lcg", label: "Рулетка" },
+        { id: "lcg", label: "Слот" },
         { id: "csprng", label: "Кости" },
         { id: "provablyFair", label: "Карты" },
-        { id: "weightedWheel", label: "Слот" },
+        { id: "weightedWheel", label: "Рулетка" },
       ] satisfies Array<{ id: MechanismId; label: string }>,
     [],
   );
@@ -33,6 +33,23 @@ export function GamesPage() {
   const session = sessions[activeMechanism];
   const netProfit = session.balance - session.totalDeposited;
   const winRate = session.betsPlayed > 0 ? (session.wins / session.betsPlayed) * 100 : 0;
+  const [betDraft, setBetDraft] = useState(() => String(params.baseBet));
+
+  useEffect(() => {
+    setBetDraft(String(params.baseBet));
+  }, [params.baseBet]);
+
+  const commitBet = () => {
+    const parsed = Number.parseInt(betDraft.replace(/\s/g, ""), 10);
+    if (!Number.isFinite(parsed) || betDraft.trim() === "") {
+      setParams({ baseBet: 1 });
+      setBetDraft("1");
+      return;
+    }
+    const capped = Math.min(Math.max(1, parsed), Math.max(1, session.balance));
+    setParams({ baseBet: capped });
+    setBetDraft(String(capped));
+  };
 
   return (
     <div className="mx-auto max-w-4xl px-4 pb-16 pt-[74px] md:px-6">
@@ -90,17 +107,21 @@ export function GamesPage() {
           <label>
             <span className="mb-1 block text-center text-xs font-medium text-ozon-muted">Ставка</span>
             <input
-              type="number"
-              min={1}
-              value={params.baseBet}
-              onChange={(event) => setParams({ baseBet: Math.max(1, Number(event.target.value) || 1) })}
+              type="text"
+              inputMode="numeric"
+              value={betDraft}
+              onChange={(event) => setBetDraft(event.target.value.replace(/[^\d]/g, ""))}
+              onBlur={commitBet}
               className="input-field w-28 text-center"
             />
           </label>
           <button
             type="button"
             disabled={isPlaying || session.balance <= 0}
-            onClick={() => void playGame()}
+            onClick={() => {
+              commitBet();
+              void playGame();
+            }}
             className="btn-primary game-play-btn disabled:opacity-40"
           >
             {isPlaying ? "…" : "Играть"}

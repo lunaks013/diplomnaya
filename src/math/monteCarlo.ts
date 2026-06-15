@@ -10,21 +10,22 @@ import type {
 import { computeStrategyBet, type StrategyState } from "./betting";
 import { csprngNext } from "./csprng";
 import { getTheoreticalWinRate, simulateWin } from "./engine";
-import { lcgNext } from "./lcg";
+import { LCG } from "./lcg";
 import { MECHANISMS } from "./mechanisms";
 
 export const MONTE_CARLO_PATHWAYS = 50;
 export const MONTE_CARLO_BETS = 100;
 
-function getRandomFor(mechanism: MechanismId): () => number {
-  switch (mechanism) {
-    case "lcg":
-      return lcgNext;
-    case "csprng":
-    case "weightedWheel":
-    case "provablyFair":
-      return csprngNext;
+function createPathwayRandom(
+  mechanism: MechanismId,
+  pathwayIndex: number,
+  sessionSeed: number,
+): () => number {
+  if (mechanism === "lcg") {
+    const lcg = new LCG(sessionSeed ^ pathwayIndex * 2_654_435_761);
+    return () => lcg.next();
   }
+  return csprngNext;
 }
 
 function runSinglePathway(
@@ -144,10 +145,11 @@ export function runMonteCarlo(
   rules: CustomGameRules,
   pathways = MONTE_CARLO_PATHWAYS,
   bets = MONTE_CARLO_BETS,
+  sessionSeed = Date.now(),
 ): SimulationResult {
-  const random = getRandomFor(mechanism);
   const runs: SimulationRun[] = [];
   for (let i = 0; i < pathways; i++) {
+    const random = createPathwayRandom(mechanism, i, sessionSeed);
     runs.push(runSinglePathway(mechanism, params, rules, random, bets));
   }
 
@@ -194,6 +196,7 @@ export interface MechanismComparison {
   label: string;
   gameShell: string;
   stats: SimulationStats;
+  averageBalances: number[];
 }
 
 export function compareAllMechanisms(
@@ -201,17 +204,32 @@ export function compareAllMechanisms(
   rules: CustomGameRules,
   pathways = MONTE_CARLO_PATHWAYS,
   bets = MONTE_CARLO_BETS,
+  sessionSeed = Date.now(),
 ): MechanismComparison[] {
   const ids: MechanismId[] = ["lcg", "csprng", "weightedWheel", "provablyFair"];
 
   return ids.map((mechanism) => {
-    const result = runMonteCarlo(mechanism, params, rules, pathways, bets);
+    const result = runMonteCarlo(mechanism, params, rules, pathways, bets, sessionSeed + pathwaySalt(mechanism));
     const info = MECHANISMS[mechanism];
     return {
       mechanism,
       label: info.label,
       gameShell: info.gameShell,
       stats: result.stats,
+      averageBalances: result.averageBalances,
     };
   });
+}
+
+function pathwaySalt(mechanism: MechanismId): number {
+  switch (mechanism) {
+    case "lcg":
+      return 11;
+    case "csprng":
+      return 29;
+    case "weightedWheel":
+      return 47;
+    case "provablyFair":
+      return 83;
+  }
 }

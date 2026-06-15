@@ -6,7 +6,6 @@ import { SectionHeader } from "../components/SectionHeader";
 import { useTelemetry } from "../context/TelemetryContext";
 import { IMAGES } from "../lib/images";
 import { ALL_MECHANISM_IDS, MECHANISM_LIST } from "../math/mechanisms";
-import { MONTE_CARLO_PATHWAYS } from "../math/monteCarlo";
 import type { MechanismId } from "../types";
 
 const points = [
@@ -33,10 +32,10 @@ const points = [
 ];
 
 const MODULE_NAMES: Record<MechanismId, string> = {
-  lcg: "Рулетка",
+  lcg: "Слот",
   csprng: "Кости",
   provablyFair: "Карты",
-  weightedWheel: "Слот",
+  weightedWheel: "Рулетка",
 };
 
 const EVENT_LABELS: Record<string, string> = {
@@ -246,17 +245,17 @@ export function TheoryPage() {
         <div className="glass p-6 md:p-8">
           <h2 className="heading-lg mb-3">Метод Монте-Карло</h2>
           <p className="text-sm leading-relaxed text-slate-600">
-            Для каждого механизма выполняется{" "}
-            <strong className="text-slate-900">{MONTE_CARLO_PATHWAYS} независимых симуляций</strong>{" "}
-            при одинаковых начальных параметрах (капитал, ставка, число итераций). Сравниваются:
-            средний остаток капитала, доля траекторий с полным исчерпанием средств и фактическая
-            доля положительных исходов относительно теоретической.
+            Это способ ответить на вопрос: <strong className="text-slate-900">что в среднем будет на длинной серии</strong>,
+            если играть с тем же балансом и ставкой. Компьютер многократно симулирует игру — без ваших реальных денег.
           </p>
           <ul className="mt-4 list-inside list-disc space-y-1 text-sm text-slate-600">
-            <li>Индекс вероятности исчерпания капитала</li>
-            <li>Скорость уменьшения капитала относительно начального баланса</li>
-            <li>Накопленная системная маржа</li>
+            <li>В программе вы играете сами — это один реальный путь.</li>
+            <li>Монте-Карло считает сотни виртуальных путей и берёт средний результат.</li>
+            <li>Так видно риск обнуления баланса и сравнение четырёх механизмов случайности.</li>
           </ul>
+          <Link to="/results?tab=monte-carlo" className="btn-primary mt-5 inline-flex">
+            Открыть расчёт Монте-Карло в итогах
+          </Link>
         </div>
       </section>
 

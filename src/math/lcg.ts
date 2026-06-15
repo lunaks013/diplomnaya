@@ -58,15 +58,18 @@ export function getLcgInstance(): LCG {
   return globalLcg;
 }
 
-export const SLOT_SYMBOLS = ["7", "BAR", "CH", "LM", "OR"] as const;
+export const SLOT_SYMBOLS = ["7", "BAR", "CH", "LM", "OR", "GR", "BL", "DI"] as const;
 export type SlotSymbol = (typeof SLOT_SYMBOLS)[number];
 
 const SYMBOL_WEIGHTS: { symbol: SlotSymbol; weight: number }[] = [
-  { symbol: "OR", weight: 35 },
-  { symbol: "LM", weight: 28 },
-  { symbol: "CH", weight: 20 },
+  { symbol: "OR", weight: 22 },
+  { symbol: "LM", weight: 18 },
+  { symbol: "CH", weight: 16 },
+  { symbol: "GR", weight: 14 },
   { symbol: "BAR", weight: 12 },
-  { symbol: "7", weight: 5 },
+  { symbol: "BL", weight: 10 },
+  { symbol: "DI", weight: 5 },
+  { symbol: "7", weight: 3 },
 ];
 
 const PAYOUT_TABLE: Record<SlotSymbol, number> = {
@@ -75,6 +78,9 @@ const PAYOUT_TABLE: Record<SlotSymbol, number> = {
   CH: 5,
   LM: 3,
   OR: 2,
+  GR: 4,
+  BL: 6,
+  DI: 15,
 };
 
 function pickSymbol(rng: () => number): SlotSymbol {
