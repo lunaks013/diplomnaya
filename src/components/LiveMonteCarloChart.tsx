@@ -16,6 +16,7 @@ interface LiveMonteCarloChartProps {
   mcResult: SimulationResult | null;
   monteCarloAverageBalances?: number[];
   startingBalance: number;
+  compact?: boolean;
 }
 
 const MODULES: Array<{ id: MechanismId; name: string; color: string }> = [
@@ -57,6 +58,7 @@ export function LiveMonteCarloChart({
   mcResult,
   monteCarloAverageBalances,
   startingBalance,
+  compact = false,
 }: LiveMonteCarloChartProps) {
   const hasGameplay = MODULES.some(({ id }) => sessions[id].betsPlayed > 0 || sessions[id].topUpCount > 0);
   const mcBalances = mcResult?.averageBalances.length
@@ -98,14 +100,18 @@ export function LiveMonteCarloChart({
   }
 
   return (
-    <section className="glass mb-8 p-5 md:p-6">
-      <div className="mb-4 flex flex-wrap items-start justify-between gap-4">
+    <section className={`glass ${compact ? "p-4 md:p-5" : "mb-8 p-5 md:p-6"}`}>
+      <div className={`mb-4 flex flex-wrap items-start justify-between gap-4 ${compact ? "mb-3" : ""}`}>
         <div>
-          <h2 className="heading-lg">Диаграмма баланса</h2>
-          <p className="mt-1 text-sm leading-relaxed text-slate-600">
-            Цветные линии — ваш реальный баланс в каждой игре. Жёлтая пунктирная — средний прогноз
-            Монте-Карло при тех же ставке и стартовом капитале.
-          </p>
+          <h2 className={compact ? "text-base font-bold text-slate-900" : "heading-lg"}>График баланса</h2>
+          {!compact && (
+            <p className="mt-1 text-sm leading-relaxed text-slate-600">
+              Цветные линии — ваш реальный баланс. Жёлтая пунктирная — средний прогноз Монте-Карло.
+            </p>
+          )}
+          {compact && (
+            <p className="mt-0.5 text-xs text-slate-500">Цветное — ваша игра · жёлтое — средний прогноз</p>
+          )}
         </div>
         <div className="rounded-card bg-slate-50 px-4 py-3 text-sm">
           <p className="text-xs text-slate-500">Начальный баланс</p>
@@ -113,7 +119,7 @@ export function LiveMonteCarloChart({
         </div>
       </div>
 
-      <div className="h-[360px] rounded-card border border-ozon-border bg-white p-3">
+      <div className={`${compact ? "h-[280px]" : "h-[360px]"} rounded-card border border-ozon-border bg-white p-3`}>
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data} margin={{ top: 12, right: 24, bottom: 10, left: 4 }}>
             <CartesianGrid stroke="#e2e8f0" strokeDasharray="4 4" />
@@ -172,28 +178,30 @@ export function LiveMonteCarloChart({
         </ResponsiveContainer>
       </div>
 
-      <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        {MODULES.map(({ id, name, color }) => {
-          const session = sessions[id];
-          const last = session.pathway[session.pathway.length - 1] ?? session.balance;
-          const change = last - session.totalDeposited;
+      {!compact && (
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {MODULES.map(({ id, name, color }) => {
+            const session = sessions[id];
+            const last = session.pathway[session.pathway.length - 1] ?? session.balance;
+            const change = last - session.totalDeposited;
 
-          return (
-            <div key={id} className="rounded-card border border-ozon-border bg-slate-50 p-3">
-              <div className="mb-1 flex items-center gap-2">
-                <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: color }} />
-                <p className="text-sm font-semibold text-slate-900">{name}</p>
+            return (
+              <div key={id} className="rounded-card border border-ozon-border bg-slate-50 p-3">
+                <div className="mb-1 flex items-center gap-2">
+                  <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: color }} />
+                  <p className="text-sm font-semibold text-slate-900">{name}</p>
+                </div>
+                <p className="text-xs text-slate-500">Ставок: {session.betsPlayed}</p>
+                <p className="text-xs text-slate-500">Текущий баланс: {formatMoney(session.balance)}</p>
+                <p className={`text-xs font-semibold ${change >= 0 ? "text-pos" : "text-neg"}`}>
+                  Итог: {change >= 0 ? "+" : "−"}
+                  {formatMoney(Math.abs(change))}
+                </p>
               </div>
-              <p className="text-xs text-slate-500">Ставок: {session.betsPlayed}</p>
-              <p className="text-xs text-slate-500">Текущий баланс: {formatMoney(session.balance)}</p>
-              <p className={`text-xs font-semibold ${change >= 0 ? "text-pos" : "text-neg"}`}>
-                Итог: {change >= 0 ? "+" : "−"}
-                {formatMoney(Math.abs(change))}
-              </p>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      )}
     </section>
   );
 }

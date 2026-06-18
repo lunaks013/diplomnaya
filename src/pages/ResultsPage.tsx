@@ -73,22 +73,28 @@ export function ResultsPage() {
   const activeTab: ResultsTab = searchParams.get("tab") === "monte-carlo" ? "monte-carlo" : "games";
 
   const [comparison, setComparison] = useState<MechanismComparison[] | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [calculationKey, setCalculationKey] = useState(0);
   const [lastCalculatedAt, setLastCalculatedAt] = useState<Date | null>(null);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
+  const [simulationBalance, setSimulationBalance] = useState(1000);
+  const [simulationBet, setSimulationBet] = useState(10);
+  const [monteCarloBootstrapped, setMonteCarloBootstrapped] = useState(false);
 
   const runComparison = useCallback(
-    (manual = false) => {
+    (balance: number, bet: number, manual = false) => {
+      setSimulationBalance(balance);
+      setSimulationBet(bet);
       setLoading(true);
       if (manual) setStatusMessage(null);
 
       const newSeed = Date.now();
       const startedAt = performance.now();
+      const simulationParams = { ...params, initialBalance: balance, baseBet: bet };
 
       window.setTimeout(() => {
         const result = compareAllMechanisms(
-          params,
+          simulationParams,
           customRules,
           MONTE_CARLO_PATHWAYS,
           MONTE_CARLO_BETS,
@@ -105,7 +111,7 @@ export function ResultsPage() {
           setLoading(false);
           if (manual) {
             setStatusMessage(
-              `Расчёт обновлён в ${new Date().toLocaleTimeString("ru-RU")}. Цифры пересчитаны по новым виртуальным сессиям.`,
+              `Расчёт обновлён: баланс ${balance.toLocaleString("ru-RU")} ₽, ставка ${bet.toLocaleString("ru-RU")} ₽.`,
             );
           }
         }, waitMs);
@@ -115,8 +121,10 @@ export function ResultsPage() {
   );
 
   useEffect(() => {
-    runComparison(false);
-  }, [runComparison]);
+    if (activeTab !== "monte-carlo" || monteCarloBootstrapped) return;
+    setMonteCarloBootstrapped(true);
+    runComparison(1000, 10, false);
+  }, [activeTab, monteCarloBootstrapped, runComparison]);
 
   const monteCarloSummary = useMemo(
     () => (comparison?.length ? buildSummary(comparison) : null),
@@ -269,16 +277,17 @@ export function ResultsPage() {
         </>
       ) : (
         <MonteCarloPanel
-          params={params}
           sessions={sessions}
           comparison={comparison}
           summary={monteCarloSummary}
           monteCarloAverageBalances={monteCarloAverageBalances}
+          simulationBalance={simulationBalance}
+          simulationBet={simulationBet}
           loading={loading}
           lastCalculatedAt={lastCalculatedAt}
           calculationKey={calculationKey}
           statusMessage={statusMessage}
-          onRecalculate={() => runComparison(true)}
+          onRunSimulation={(balance, bet) => runComparison(balance, bet, true)}
         />
       )}
 

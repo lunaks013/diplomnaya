@@ -4,6 +4,7 @@ import { AcademicFigure } from "../components/AcademicFigure";
 import { PageHeader } from "../components/PageHeader";
 import { SectionHeader } from "../components/SectionHeader";
 import { useTelemetry } from "../context/TelemetryContext";
+import { MonteCarloTheoryDiagram } from "../components/MonteCarloTheoryDiagram";
 import { IMAGES } from "../lib/images";
 import { ALL_MECHANISM_IDS, MECHANISM_LIST } from "../math/mechanisms";
 import type { MechanismId } from "../types";
@@ -236,25 +237,16 @@ export function TheoryPage() {
       </section>
 
       <section className="mb-12">
-        <AcademicFigure
-          src={IMAGES.analytics}
-          alt="Визуализация метода Монте-Карло"
-          caption="Рис. 2 — Сравнение траекторий при статистическом моделировании"
-          className="mb-6"
-        />
-        <div className="glass p-6 md:p-8">
-          <h2 className="heading-lg mb-3">Метод Монте-Карло</h2>
+        <MonteCarloTheoryDiagram />
+
+        <div className="glass mt-6 p-5 md:p-6">
+          <h2 className="heading-lg mb-2">Метод Монте-Карло</h2>
           <p className="text-sm leading-relaxed text-slate-600">
-            Это способ ответить на вопрос: <strong className="text-slate-900">что в среднем будет на длинной серии</strong>,
-            если играть с тем же балансом и ставкой. Компьютер многократно симулирует игру — без ваших реальных денег.
+            Компьютер многократно симулирует игру при вашем балансе и ставке и показывает средний результат —
+            не один случайный раунд, а прогноз на длинной серии.
           </p>
-          <ul className="mt-4 list-inside list-disc space-y-1 text-sm text-slate-600">
-            <li>В программе вы играете сами — это один реальный путь.</li>
-            <li>Монте-Карло считает сотни виртуальных путей и берёт средний результат.</li>
-            <li>Так видно риск обнуления баланса и сравнение четырёх механизмов случайности.</li>
-          </ul>
-          <Link to="/results?tab=monte-carlo" className="btn-primary mt-5 inline-flex">
-            Открыть расчёт Монте-Карло в итогах
+          <Link to="/results?tab=monte-carlo" className="btn-primary mt-4 inline-flex">
+            Открыть живой расчёт в итогах
           </Link>
         </div>
       </section>
